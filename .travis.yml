@@ -21,7 +21,6 @@ deploy:
   token:
     secure: fX5RXfrFOoglNSRhN6jLMd9D2p4kB/BMhQvmYFdWBFregJ6aL+elpqytGRdV84gi54vJo+BIkz4gNjQpuzKUbzdzOp2cdvQeANvK+WTCR2TGtwLb/yM+ozMTn4PAMsGJXTa9+kjYy/TAT3+zKS6Y2LYVPdd4SICdTX6nsLqdMotXndxHFvM2aXIao0rbjbCTQi/wZollYSzvgLFKAdxw3FtXgdez2UqZrV0a4KRXOGstzDwzB6f7DlNo58/PibLabzePIU59IVzZncSPThVPaNYidSBcU0fz1g2KJcDDvUvh/zanvucoFrrumcGxFQESLalOx6r3iVDQzpHnOU4kkZLvUwTHYLNsG3Ds3k+XHtj0iPAzCKEE+phERTLjBlNud/+gYpTX1M++S/ia+zz6C+QZsrcnEBQGc6kyKT04y0gFqujj9hpXhl4aMm/kQbOe/QnmhXcBV7hWxB+Mb3EEcuzux72GXTkL636CveWc0TFuSaMBFg0U1ypt8OPNVIj8Skc+C1lEJ4bVO224s8cp1MqR71TtMLGt/VADlwDXZAr9T5gu+9hRfknG9RiDtBCAytJ1F+TEQoQNWuxkzBshSb53jT2eFGX8oG4rKieIGC0pPx3eDizivGQ9+xGY8Nd2s2ApC6jwux/dj9valLA9Vz5IWAw+FALka2rVm8Cs5LA=
   file: target/vcf-utils.jar
-  prerelease: true
   on:
     tags: true
   edge: true # opt in to dpl v2
