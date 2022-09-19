@@ -1,0 +1,32 @@
+{
+  "vepMetadata": {
+    "VIPP": {
+      "numberType": "OTHER",
+      "separator": "&",
+      "type": "STRING"
+    },
+    "NONSENSE": {
+      "numberType": "OTHER",
+      "separator": "&",
+      "type": "STRING"
+    },
+    "CAPICE_CL": {
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "CATEGORICAL",
+      "categories": [
+        "B",
+        "LB",
+        "VUS",
+        "LP",
+        "P"
+      ]
+    },
+    "PHENO": {
+      "numberType": "OTHER",
+      "separator": "&",
+      "type": "INTEGER"
+    }
+  }
+}
+

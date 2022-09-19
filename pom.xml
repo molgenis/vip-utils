@@ -11,9 +11,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>org.molgenis</groupId>
+  <groupId>com.github.molgenis</groupId>
   <artifactId>vip-utils</artifactId>
-  <version>1.0.0</version>
+  <version>v1.1.0</version>
 
   <name>vip-utils</name>
   <description>Shared classes and tools between VIP repo's</description>
