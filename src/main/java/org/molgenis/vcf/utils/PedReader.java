@@ -35,6 +35,7 @@ import java.util.NoSuchElementException;
  *   <li>Genotypes
  * </ul>
  */
+@SuppressWarnings("java:S6201")
 public class PedReader implements AutoCloseable {
   private final BufferedReader bufferedReader;
   private final PedIndividualParser pedIndividualParser;
