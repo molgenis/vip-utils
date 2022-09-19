@@ -20,4 +20,8 @@ public interface Field {
   Set<String> getCategories();
 
   boolean isRequired();
+
+  String getLabel();
+
+  String getDescription();
 }

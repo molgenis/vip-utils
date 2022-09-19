@@ -69,4 +69,20 @@ public class MissingField implements Field {
             .format("Required is unavailable for field '%s' that is not present in the input vcf.",
                 id));
   }
+
+  @Override
+  public String getLabel() {
+    throw new UnsupportedOperationException(
+        String
+            .format("Label is unavailable for field '%s' that is not present in the input vcf.",
+                id));
+  }
+
+  @Override
+  public String getDescription() {
+    throw new UnsupportedOperationException(
+        String
+            .format("Description is unavailable for field '%s' that is not present in the input vcf.",
+                id));
+  }
 }

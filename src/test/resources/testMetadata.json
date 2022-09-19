@@ -1,6 +1,8 @@
 {
   "vepMetadata": {
     "VIPP": {
+      "label": "VIP path",
+      "description": "VIP decision tree path",
       "numberType": "OTHER",
       "separator": "&",
       "type": "STRING"

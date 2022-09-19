@@ -65,6 +65,7 @@ public class VepMetadataServiceImpl implements VepMetadataService {
                 .numberType(field.getNumberType()).separator(field.getSeparator())
                 .categories(field.getCategories()).index(index)
                 .numberCount(field.getNumberCount()).type(field.getType())
+                .label(field.getLabel()).description(field.getDescription())
                 .required(field.isRequired()).parent(parent).build());
       }
     }

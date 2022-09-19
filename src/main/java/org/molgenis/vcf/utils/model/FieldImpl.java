@@ -30,4 +30,6 @@ public class FieldImpl implements Field {
   @Default boolean required = false;
   Character separator;
   Set<String> categories;
+  String label;
+  String description;
 }
