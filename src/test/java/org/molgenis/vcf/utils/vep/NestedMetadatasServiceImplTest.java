@@ -18,41 +18,44 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.molgenis.vcf.utils.model.Field;
 import org.molgenis.vcf.utils.model.FieldImpl;
-import org.molgenis.vcf.utils.model.FieldImpl.NumberType;
 import org.molgenis.vcf.utils.model.NestedField;
+import org.molgenis.vcf.utils.model.NestedMetadata;
+import org.molgenis.vcf.utils.model.NumberType;
 import org.molgenis.vcf.utils.model.ValueType;
 
-class VepMetadataServiceImplTest {
+class NestedMetadatasServiceImplTest {
 
   @Test
   void load() throws FileNotFoundException {
     VCFInfoHeaderLine vcfInfoHeaderLine = mock(VCFInfoHeaderLine.class);
-    when(vcfInfoHeaderLine.getID()).thenReturn("Test");
+    when(vcfInfoHeaderLine.getID()).thenReturn("TEST");
     when(vcfInfoHeaderLine.getType()).thenReturn(VCFHeaderLineType.String);
     when(vcfInfoHeaderLine.getCountType()).thenReturn(VCFHeaderLineCount.UNBOUNDED);
     when(vcfInfoHeaderLine.getDescription()).thenReturn(
         "Consequence annotations from Ensembl VEP. Format: VKGL_CL|PHENO|VIPP|CAPICE_CL");
 
     Path path = Paths.get("src", "test", "resources", "testMetadata.json");
-    VepMetadataService vepMetadataService = new VepMetadataServiceImpl();
+    MetadataService metadataService = new MetadataServiceImpl();
 
-    NestedMetadata actual = vepMetadataService.load(new FileInputStream(path.toString()),
+    NestedMetadata actual = metadataService.load(new FileInputStream(path.toString()),
         vcfInfoHeaderLine);
 
     Field parent = FieldImpl.builder().fieldType(INFO).numberType(NumberType.OTHER)
-        .type(ValueType.STRING).id("Test").required(false).separator('|').build();
+        .type(ValueType.STRING).id("TEST").label("TEST").description(
+            "Consequence annotations from Ensembl VEP. Format: VKGL_CL|PHENO|VIPP|CAPICE_CL")
+        .required(false).separator('|').build();
     NestedField nestedField1 = NestedField.builder().id("VKGL_CL").index(0)
         .numberType(NumberType.NUMBER)
-        .numberCount(1).type(ValueType.STRING).fieldType(INFO_VEP).parent(parent).required(false)
+        .numberCount(1).type(ValueType.STRING).fieldType(INFO_VEP).parent(parent).required(false).label("VKGL_CL").description("VKGL_CL")
         .build();
     NestedField nestedField2 = NestedField.builder().id("CAPICE_CL").index(3)
         .numberType(NumberType.NUMBER)
         .numberCount(1).type(ValueType.CATEGORICAL).categories(
-            Set.of("P", "LP", "VUS", "LB", "B")).fieldType(INFO_VEP).parent(parent).required(false)
+            Set.of("P", "LP", "VUS", "LB", "B")).fieldType(INFO_VEP).parent(parent).required(false).label("CAPICE_CL").description("CAPICE_CL")
         .build();
     NestedField nestedField3 = NestedField.builder().id("PHENO").index(1).separator('&')
         .numberType(NumberType.OTHER)
-        .type(ValueType.INTEGER).fieldType(INFO_VEP).parent(parent).required(false).build();
+        .type(ValueType.INTEGER).fieldType(INFO_VEP).parent(parent).required(false).label("PHENO").description("PHENO").build();
     NestedField nestedField4 = NestedField.builder().id("VIPP").index(2).separator('&')
         .numberType(NumberType.OTHER)
         .type(ValueType.STRING).fieldType(INFO_VEP).parent(parent).required(false).label("VIP path")
@@ -60,7 +63,7 @@ class VepMetadataServiceImplTest {
     Map<String, NestedField> vepMeta = Map.of(
         "VKGL_CL", nestedField1, "CAPICE_CL", nestedField2, "PHENO", nestedField3, "VIPP",
         nestedField4);
-    NestedMetadata expected = NestedMetadata.builder().parent(parent).vepMetadata(vepMeta).build();
+    NestedMetadata expected = NestedMetadata.builder().parent(parent).nestedFields(vepMeta).build();
     assertEquals(expected, actual);
   }
 

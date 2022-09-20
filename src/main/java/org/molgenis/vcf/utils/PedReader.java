@@ -35,14 +35,12 @@ import java.util.NoSuchElementException;
  *   <li>Genotypes
  * </ul>
  */
-@SuppressWarnings("java:S6201")
 public class PedReader implements AutoCloseable {
   private final BufferedReader bufferedReader;
   private final PedIndividualParser pedIndividualParser;
 
   public PedReader(Reader reader) {
-    this.bufferedReader =
-        reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
+    this.bufferedReader = reader instanceof BufferedReader aBufferedReader ? aBufferedReader : new BufferedReader(reader);
     this.pedIndividualParser = new PedIndividualParser();
   }
 

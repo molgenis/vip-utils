@@ -13,15 +13,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class FieldImpl implements Field {
-  @NonNull
-  public enum NumberType {
-    NUMBER,
-    PER_ALT,
-    PER_ALT_AND_REF,
-    PER_GENOTYPE,
-    OTHER
-  }
-
   @NonNull String id;
   @NonNull FieldType fieldType;
   @NonNull ValueType type;
@@ -30,6 +21,6 @@ public class FieldImpl implements Field {
   @Default boolean required = false;
   Character separator;
   Set<String> categories;
-  String label;
-  String description;
+  @NonNull String label;
+  @NonNull String description;
 }

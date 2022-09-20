@@ -5,12 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
-import lombok.experimental.NonFinal;
-import org.molgenis.vcf.utils.model.FieldImpl.NumberType;
 
 @Value
 @Builder
-@NonFinal
 @AllArgsConstructor
 public class MissingField implements Field {
 

@@ -1,7 +1,6 @@
 package org.molgenis.vcf.utils.model;
 
 import java.util.Set;
-import org.molgenis.vcf.utils.model.FieldImpl.NumberType;
 
 public interface Field {
 

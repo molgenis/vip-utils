@@ -1,34 +1,43 @@
 {
-  "vepMetadata": {
-    "VIPP": {
-      "label": "VIP path",
-      "description": "VIP decision tree path",
-      "numberType": "OTHER",
-      "separator": "&",
-      "type": "STRING"
-    },
-    "NONSENSE": {
-      "numberType": "OTHER",
-      "separator": "&",
-      "type": "STRING"
-    },
-    "CAPICE_CL": {
-      "numberType": "NUMBER",
-      "numberCount": 1,
-      "type": "CATEGORICAL",
-      "categories": [
-        "B",
-        "LB",
-        "VUS",
-        "LP",
-        "P"
-      ]
-    },
-    "PHENO": {
-      "numberType": "OTHER",
-      "separator": "&",
-      "type": "INTEGER"
+  "nestedMetadata": {
+    "TEST": {
+      "nestedFields": {
+        "VIPP": {
+          "label": "VIP path",
+          "description": "VIP decision tree path",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "STRING"
+        },
+        "NONSENSE": {
+          "label": "NONSENSE",
+          "description": "NONSENSE",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "STRING"
+        },
+        "CAPICE_CL": {
+          "label": "CAPICE_CL",
+          "description": "CAPICE_CL",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "categories": [
+            "B",
+            "LB",
+            "VUS",
+            "LP",
+            "P"
+          ]
+        },
+        "PHENO": {
+          "label": "PHENO",
+          "description": "PHENO",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "INTEGER"
+        }
+      }
     }
   }
 }
-
