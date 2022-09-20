@@ -1,16 +1,17 @@
 package org.molgenis.vcf.utils.model;
 
 import java.util.Set;
+import org.springframework.lang.NonNull;
 
 public interface Field {
 
-  String getId();
+  @NonNull String getId();
 
-  FieldType getFieldType();
+  @NonNull FieldType getFieldType();
 
-  ValueType getType();
+  @NonNull ValueType getType();
 
-  NumberType getNumberType();
+  @NonNull NumberType getNumberType();
 
   Integer getNumberCount();
 
@@ -20,7 +21,7 @@ public interface Field {
 
   boolean isRequired();
 
-  String getLabel();
+  @NonNull String getLabel();
 
-  String getDescription();
+  @NonNull String getDescription();
 }
