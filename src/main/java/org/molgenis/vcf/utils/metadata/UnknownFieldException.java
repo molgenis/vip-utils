@@ -1,14 +1,14 @@
-package org.molgenis.vcf.utils.vep;
+package org.molgenis.vcf.utils.metadata;
 
 
 import org.springframework.lang.NonNull;
 
-public class UnknownNestedFieldException extends RuntimeException {
+public class UnknownFieldException extends RuntimeException {
 
   private static final String MESSAGE = "No known nested metadata for identifier '%s'.";
   private final String id;
 
-  public UnknownNestedFieldException(@NonNull String id) {
+  public UnknownFieldException(@NonNull String id) {
     this.id = id;
   }
 

@@ -1,27 +1,24 @@
 package org.molgenis.vcf.utils.model;
 
 import java.util.Set;
-import org.springframework.lang.NonNull;
+import lombok.Builder.Default;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
-public interface Field {
-
-  @NonNull String getId();
-
-  @NonNull FieldType getFieldType();
-
-  @NonNull ValueType getType();
-
-  @NonNull NumberType getNumberType();
-
-  Integer getNumberCount();
-
-  Character getSeparator();
-
-  Set<String> getCategories();
-
-  boolean isRequired();
-
-  @NonNull String getLabel();
-
-  @NonNull String getDescription();
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@EqualsAndHashCode
+public class Field {
+  @NonNull ValueType type;
+  @NonNull NumberType numberType;
+  Integer numberCount;
+  @Default boolean required = false;
+  Character separator;
+  Set<String> categories;
+  @NonNull String label;
+  @NonNull String description;
 }

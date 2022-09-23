@@ -13,7 +13,7 @@ import lombok.experimental.NonFinal;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NonFinal
-public class NestedMetadata {
-  Field parent;
+public class FieldMetadata {
+  Field field;
   Map<String, NestedField> nestedFields;
 }
