@@ -40,8 +40,7 @@ public class PedReader implements AutoCloseable {
   private final PedIndividualParser pedIndividualParser;
 
   public PedReader(Reader reader) {
-    this.bufferedReader =
-        reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
+    this.bufferedReader = reader instanceof BufferedReader aBufferedReader ? aBufferedReader : new BufferedReader(reader);
     this.pedIndividualParser = new PedIndividualParser();
   }
 

@@ -1,0 +1,56 @@
+{
+  "info": {
+    "TEST": {
+      "field": {
+        "label": "TEST",
+        "description": "TEST",
+        "numberType": "NUMBER",
+        "numberCount": 1,
+        "type": "STRING"
+      }
+    },
+    "CSQ": {
+      "nestedFields": {
+        "VIPP": {
+          "label": "VIP path",
+          "description": "VIP decision tree path",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "STRING"
+        },
+        "CAPICE_CL": {
+          "label": "CAPICE_CL",
+          "description": "CAPICE_CL",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "categories": [
+            "B",
+            "LB",
+            "VUS",
+            "LP",
+            "P"
+          ]
+        },
+        "PHENO": {
+          "label": "PHENO",
+          "description": "PHENO",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "INTEGER"
+        }
+      }
+    }
+  },
+  "format": {
+    "TEST": {
+      "field": {
+        "label": "TEST",
+        "description": "TEST",
+        "numberType": "NUMBER",
+        "numberCount": 1,
+        "type": "STRING"
+      }
+    }
+  }
+}
