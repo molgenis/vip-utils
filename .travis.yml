@@ -27,7 +27,7 @@ deploy:
       tags: true
     edge: true # opt in to dpl v2
   - provider: script
-    script: mvn clean deploy
+    script: "mvn clean deploy"
     on:
       tags: true
     edge: true # opt in to dpl v2
