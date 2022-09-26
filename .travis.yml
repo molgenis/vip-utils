@@ -4,23 +4,35 @@ language: java
 jdk: openjdk17
 cache:
   directories:
-    - "$HOME/.m2"
+  - "$HOME/.m2"
 branches:
   only:
-    - main
-    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+  - main
+  - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 addons:
   sonarcloud:
     organization: molgenis
     token:
       secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
+before_install:
+- cp travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+- mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
-  provider: releases
+- provider: releases
   token:
-    secure: GGUbt6xbaDCa8eJSJ6bRmq33Pxwjl7vDbaaKJTnk2SPsXRmvxGEE7k566fYoiqsT+FM+2x/aQSC34uX6yQOqKO+OAvLW6eJjhibiPopGtB2Bp3cvC11GxSRHAxNqrYSq0TqaSQ1CWAWK8XCU1BcgN6BV/Maj+UWiqdcJ6yW88od5geGPJAGEIoOUHXHMWpLSWgSl8a0Ia073d/+yTTsSBx7UG1F3TyZ7RlBhstiHe3Zc1iJ1Q1L2tjTa34paYgGtKN+mCeioblRoJwLp36gT0oHP4qt6rqLOtE7ILwNlD4A3cTMOVMZqeiPeLkfNmTGF197m5w8wG8JVj5vkPi2j26K0E7YgiDcKx/e2OHpXex2y4fqfWvbngEU03voKmCddWJX+/PMrglZ/WZIDZUdDpZQuVXxsD4Nj01Kzn2/r90lbtzO83gWGvgCl/nksnDdvp2XtaRlRb1Sqs7qsLsadnkPApvqQhmKlOOz14Xovh16HmcCarx0IRjEh4HxlC6lXGzxO2QzU4YhMRwlmmW7GlRuqKiMnx3lqoYRhDSzqAUI1gm7v/1v1thRdU36pjlKD1pd4iUu9QHzMwQ3IlZux/TByyhfLfLVkX/m4bg4/qWQmX8jiZTRz4hX+K6o/odRxzBm+rwPa0wJpJ06VepyMoc9ZfL1ZjrsLeYSFQkc1vbs=
-  file: [target/vip-utils.jar, src/main/resources/field_metadata.json]
+    secure: IBaApKGv7jH2aidxsthwzz3ZfUdOCOlmOgj3VyArzNmjNqYJMj9oPu7aNcI6ckk2xov8DxZknk1YlwONiN+gMKHrGqMR3Ckz96QDvt2QnyIOFsd8pAfaQqeMQyY/SJkFfWFFlDFmwaamxX08jwPg4JmSjcZ45IB12EiGAGtOU2DY1UH8kCtQJzADMWHPffS6OnzAfKTDPrZuuxZ0ogiav/se3aEvOWf3/sVKeeMIHDv1Hi4DaNrXvd1CG+ivtFoQMGr3F4McZSCo+DpO/XW7/RAjkeeM8xd3qV2ng3SbF9iAfGVG3jLmfwAsNMik5rdoQTgMV665ftx8P//dimv3JQYUhPdBFcWl7pmhE2oldWDhjT/a1dkkCoqK8Rjo7F0swDdJy3ztyKCxeAA9zF/4pc3kL2fzS92w5Iltl2IZpWZUgHuhtIz9WCJ1pws9Y+fjEe+vHdVIIIIZ9jiSg0ei8yua0DW9dj7AUVUZ7Wz2IIF5jYug3qluu5dAnkq8YQB15fMUniCaPODO2WNyZQa5IaTlXp+DRoguqE95VxfpkwFOzibC1ppPciMuqBBYgMML2X1PVV93A7nOYU2UeIvAU18CotTJnY1n7p+Wnj/gdy5lEv158GHscdnZb01EHk4vZd7tAzat7/3qLcA2WkDiVp6Ln4eVYK4VSD2gVmrTPKQ=
+  file:
+  - target/vip-utils.jar
+  - src/main/resources/field_metadata.json
   on:
     tags: true
-  edge: true # opt in to dpl v2
+  edge: true
+- provider: script
+  script: mvn clean deploy
+  on:
+    tags: true
+  edge: true
+env:
+  global:
+    secure: ip/Br7KwWN4a4Kx7BfR7IxN2Fjy+LYkGQ4pPL46BkQBxkRB04qrjpQl2OHEthJMysVBISz8sT7EvnsN+quP//sQyMceyQHfHiuR5y8m5K5YaelBFTiWxSBJn5bAu55QNdaucq8EytDXg+BPzDwXG04wnm8i52jB9wxGVwip3IVRKSt2kAqJhhR6rARfmw8PF0cbrCb7W4E+SIEAoUjLJ6SxZEDiZBZIPtLy9dqpRIU29NeDORT4xtLXVHlIJZQ+D39rcOVJiXmSzKZ0KRSyDY5I81A3oZErQaIYYS96CjXWcx/pgwHoarIl26kOW4UVoZNn4saJ5S5HjmvCcHVpnarxsiwyVOX96y+4f0IBwsQnO/tkYVXJq+vK/KnaI5Yts9TzSiQvvQ7GBnPM3TPt1Tl08dK8pjSdVX2zI8TqtNQ8YpuDdLhjiAeW+YYcsoHsXp5MrAhQdkxBk2WT6w9E/XY8QfUhcoZdHCWftCGSs/kMxM1hqWJqIwwqcLc0c0PDCF5213y2ZxFRoiDKyq68usWQ/IEqe77kIaF+LIr3z5QxNeic5ouf3ZKcFbZs96G0Uq3FhRNpm61RsQYdUiIEbDw3NOmnxHyKVwJTZEr7t3DgCoHY1+KUfs7QLcPfXHg+W4T+tLsFBT4oieK8Xl7tp9OldxQueAjekMXlM69lz46w=
