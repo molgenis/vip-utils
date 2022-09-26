@@ -4,33 +4,35 @@ language: java
 jdk: openjdk17
 cache:
   directories:
-    - "$HOME/.m2"
+  - "$HOME/.m2"
 branches:
   only:
-    - main
-    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+  - main
+  - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 addons:
   sonarcloud:
     organization: molgenis
     token:
       secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
 before_install:
-  - cp travis.settings.xml $HOME/.m2/settings.xml
+- cp travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+- mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
-  - provider: releases
-    token:
-      secure: GGUbt6xbaDCa8eJSJ6bRmq33Pxwjl7vDbaaKJTnk2SPsXRmvxGEE7k566fYoiqsT+FM+2x/aQSC34uX6yQOqKO+OAvLW6eJjhibiPopGtB2Bp3cvC11GxSRHAxNqrYSq0TqaSQ1CWAWK8XCU1BcgN6BV/Maj+UWiqdcJ6yW88od5geGPJAGEIoOUHXHMWpLSWgSl8a0Ia073d/+yTTsSBx7UG1F3TyZ7RlBhstiHe3Zc1iJ1Q1L2tjTa34paYgGtKN+mCeioblRoJwLp36gT0oHP4qt6rqLOtE7ILwNlD4A3cTMOVMZqeiPeLkfNmTGF197m5w8wG8JVj5vkPi2j26K0E7YgiDcKx/e2OHpXex2y4fqfWvbngEU03voKmCddWJX+/PMrglZ/WZIDZUdDpZQuVXxsD4Nj01Kzn2/r90lbtzO83gWGvgCl/nksnDdvp2XtaRlRb1Sqs7qsLsadnkPApvqQhmKlOOz14Xovh16HmcCarx0IRjEh4HxlC6lXGzxO2QzU4YhMRwlmmW7GlRuqKiMnx3lqoYRhDSzqAUI1gm7v/1v1thRdU36pjlKD1pd4iUu9QHzMwQ3IlZux/TByyhfLfLVkX/m4bg4/qWQmX8jiZTRz4hX+K6o/odRxzBm+rwPa0wJpJ06VepyMoc9ZfL1ZjrsLeYSFQkc1vbs=
-    file: [target/vip-utils.jar, src/main/resources/field_metadata.json]
-    on:
-      tags: true
-    edge: true # opt in to dpl v2
-  - provider: script
-    script: "mvn clean deploy"
-    on:
-      tags: true
-    edge: true # opt in to dpl v2
+- provider: releases
+  token:
+    secure: GGUbt6xbaDCa8eJSJ6bRmq33Pxwjl7vDbaaKJTnk2SPsXRmvxGEE7k566fYoiqsT+FM+2x/aQSC34uX6yQOqKO+OAvLW6eJjhibiPopGtB2Bp3cvC11GxSRHAxNqrYSq0TqaSQ1CWAWK8XCU1BcgN6BV/Maj+UWiqdcJ6yW88od5geGPJAGEIoOUHXHMWpLSWgSl8a0Ia073d/+yTTsSBx7UG1F3TyZ7RlBhstiHe3Zc1iJ1Q1L2tjTa34paYgGtKN+mCeioblRoJwLp36gT0oHP4qt6rqLOtE7ILwNlD4A3cTMOVMZqeiPeLkfNmTGF197m5w8wG8JVj5vkPi2j26K0E7YgiDcKx/e2OHpXex2y4fqfWvbngEU03voKmCddWJX+/PMrglZ/WZIDZUdDpZQuVXxsD4Nj01Kzn2/r90lbtzO83gWGvgCl/nksnDdvp2XtaRlRb1Sqs7qsLsadnkPApvqQhmKlOOz14Xovh16HmcCarx0IRjEh4HxlC6lXGzxO2QzU4YhMRwlmmW7GlRuqKiMnx3lqoYRhDSzqAUI1gm7v/1v1thRdU36pjlKD1pd4iUu9QHzMwQ3IlZux/TByyhfLfLVkX/m4bg4/qWQmX8jiZTRz4hX+K6o/odRxzBm+rwPa0wJpJ06VepyMoc9ZfL1ZjrsLeYSFQkc1vbs=
+  file:
+  - target/vip-utils.jar
+  - src/main/resources/field_metadata.json
+  on:
+    tags: true
+  edge: true
+- provider: script
+  script: mvn clean deploy
+  on:
+    tags: true
+  edge: true
 env:
   global:
-    - secure: A43yYaTGJhZr+z06S31aoJUNRhzvHG9elOk0IbNShmKO6L24Oq7ljVDYryUIw5/2bgacLEDt4QNicPkyIR4lNKYmGtzuA8qXfE97ohPVo3gkxOZBMgR7yWjUw68txGcFlo+TdWqxHtCTky8Na796xzAa6dvErsnGdX+hqF6gu/SkjsGPtQiN9S7DeKk51N3acscb/LxzJ2wKw9zXmiCEtYax6+nwuaNQzdq7p7nnQjYzrrWliofmg+LN7jq4nCMiBpcmrwDaAfCfjkMGjREU56B1JjyYd4ZGlzXEXiuFqpE5dJBp2not8OHRiVdSGaP87hvrpszqY7eRvoVcJN6TVRnqyRFDBvaKibYmccnXfMUDIy6MKxsqyt/S6OmI9i04UwLfqkYTaKnOi4nq5T8cm2RnmcJpl2DIGcWtftes28r6+aspvxekkss3BSRQhoSIamD5FtRTFAYyLrKj91sls0+8O4YARIwG4FrnGYkReeRUyD8nSwWAA5AUBGuzjxfyBFR9jrF4sSa+wubjlrPSTDF6siSN8R1url4x1Wb9jzAxb2T26feIJ4+dAqNRi89grcgyWgoc4OJ4ZlBaAJOe5RKKaHOibZLvY75dCT6CKCFBH1hu64jvbhOcPQW3N7fL80ZyhyLrU7Ut/hPP+59n6SK2p9bT/k0s9DtttPyLQ0Y=
+    secure: nYVvPzIwMV4+WpR8qH8R20MNs9FmOkBfMF4LdEWahyvmCPhKq9VqENroz/lSjkWbLfD2ekkc2X1XP3p22yMWfdiXUih40WwBbvt6Z9CvqZjsbxhvkvpsAoKOU5ZwxP7ywxI0EdFxQuBJESX4ueyt9wQj4vIhyTqx8IKR7RlPsnJldlalKw3ZcJGEx90lOGI99hL52DT3PfJ5yvSxF5p/a7pUycRgbGxPPN3wieQodliUC6KInjiv6vdm1Rp1nQnHuhUTdfFZxPbOr2NugelP08Yi3o1noY+M3ye6FHdvZcBdBe9rhk4el0T9GBeBZZTI+NGvhtFJfoBSJIn8QXYluYs3FOGHkCY2psdr3PnSP1hP/txbOQR7bZQLB5PyT8DquJLmGc+saU9wUoTF92MbV/wp12nLyhoYyiMy8JwBm4JX+h7pMnLjHHL5+hRFFkiUhtd4Rvihl3bZ3wucbuRbCKUEtqHvZ7tzqCovIoxUr7EOWZ+PIMrsef6j5stRSpTaGRnPyha88aSVemlMnxi+qnaDNF2aG9ap7Adk+STDaCr+GuVHkMXTahzNRIWShu6ZeqMTlMauBvIgG3BwBlSRdU0Hk45S2iPTqg/gm+GiEsubxcfsOxcf4xjuUERCBtpU5LibMeHjSyGCEhotlRiaeDh+NkGMBrjHKbO+Q5yvCJw=
