@@ -19,14 +19,18 @@ before_install:
 script:
   - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
-  script: mvn clean deploy
-  provider: releases
-  token:
-    secure: GGUbt6xbaDCa8eJSJ6bRmq33Pxwjl7vDbaaKJTnk2SPsXRmvxGEE7k566fYoiqsT+FM+2x/aQSC34uX6yQOqKO+OAvLW6eJjhibiPopGtB2Bp3cvC11GxSRHAxNqrYSq0TqaSQ1CWAWK8XCU1BcgN6BV/Maj+UWiqdcJ6yW88od5geGPJAGEIoOUHXHMWpLSWgSl8a0Ia073d/+yTTsSBx7UG1F3TyZ7RlBhstiHe3Zc1iJ1Q1L2tjTa34paYgGtKN+mCeioblRoJwLp36gT0oHP4qt6rqLOtE7ILwNlD4A3cTMOVMZqeiPeLkfNmTGF197m5w8wG8JVj5vkPi2j26K0E7YgiDcKx/e2OHpXex2y4fqfWvbngEU03voKmCddWJX+/PMrglZ/WZIDZUdDpZQuVXxsD4Nj01Kzn2/r90lbtzO83gWGvgCl/nksnDdvp2XtaRlRb1Sqs7qsLsadnkPApvqQhmKlOOz14Xovh16HmcCarx0IRjEh4HxlC6lXGzxO2QzU4YhMRwlmmW7GlRuqKiMnx3lqoYRhDSzqAUI1gm7v/1v1thRdU36pjlKD1pd4iUu9QHzMwQ3IlZux/TByyhfLfLVkX/m4bg4/qWQmX8jiZTRz4hX+K6o/odRxzBm+rwPa0wJpJ06VepyMoc9ZfL1ZjrsLeYSFQkc1vbs=
-  file: [target/vip-utils.jar, src/main/resources/field_metadata.json]
-  on:
-    tags: true
-  edge: true # opt in to dpl v2
+  - provider: releases
+    token:
+      secure: GGUbt6xbaDCa8eJSJ6bRmq33Pxwjl7vDbaaKJTnk2SPsXRmvxGEE7k566fYoiqsT+FM+2x/aQSC34uX6yQOqKO+OAvLW6eJjhibiPopGtB2Bp3cvC11GxSRHAxNqrYSq0TqaSQ1CWAWK8XCU1BcgN6BV/Maj+UWiqdcJ6yW88od5geGPJAGEIoOUHXHMWpLSWgSl8a0Ia073d/+yTTsSBx7UG1F3TyZ7RlBhstiHe3Zc1iJ1Q1L2tjTa34paYgGtKN+mCeioblRoJwLp36gT0oHP4qt6rqLOtE7ILwNlD4A3cTMOVMZqeiPeLkfNmTGF197m5w8wG8JVj5vkPi2j26K0E7YgiDcKx/e2OHpXex2y4fqfWvbngEU03voKmCddWJX+/PMrglZ/WZIDZUdDpZQuVXxsD4Nj01Kzn2/r90lbtzO83gWGvgCl/nksnDdvp2XtaRlRb1Sqs7qsLsadnkPApvqQhmKlOOz14Xovh16HmcCarx0IRjEh4HxlC6lXGzxO2QzU4YhMRwlmmW7GlRuqKiMnx3lqoYRhDSzqAUI1gm7v/1v1thRdU36pjlKD1pd4iUu9QHzMwQ3IlZux/TByyhfLfLVkX/m4bg4/qWQmX8jiZTRz4hX+K6o/odRxzBm+rwPa0wJpJ06VepyMoc9ZfL1ZjrsLeYSFQkc1vbs=
+    file: [target/vip-utils.jar, src/main/resources/field_metadata.json]
+    on:
+      tags: true
+    edge: true # opt in to dpl v2
+  - provider: releases
+    script: mvn clean deploy
+    on:
+      tags: true
+    edge: true # opt in to dpl v2
 env:
   global:
     - secure: A43yYaTGJhZr+z06S31aoJUNRhzvHG9elOk0IbNShmKO6L24Oq7ljVDYryUIw5/2bgacLEDt4QNicPkyIR4lNKYmGtzuA8qXfE97ohPVo3gkxOZBMgR7yWjUw68txGcFlo+TdWqxHtCTky8Na796xzAa6dvErsnGdX+hqF6gu/SkjsGPtQiN9S7DeKk51N3acscb/LxzJ2wKw9zXmiCEtYax6+nwuaNQzdq7p7nnQjYzrrWliofmg+LN7jq4nCMiBpcmrwDaAfCfjkMGjREU56B1JjyYd4ZGlzXEXiuFqpE5dJBp2not8OHRiVdSGaP87hvrpszqY7eRvoVcJN6TVRnqyRFDBvaKibYmccnXfMUDIy6MKxsqyt/S6OmI9i04UwLfqkYTaKnOi4nq5T8cm2RnmcJpl2DIGcWtftes28r6+aspvxekkss3BSRQhoSIamD5FtRTFAYyLrKj91sls0+8O4YARIwG4FrnGYkReeRUyD8nSwWAA5AUBGuzjxfyBFR9jrF4sSa+wubjlrPSTDF6siSN8R1url4x1Wb9jzAxb2T26feIJ4+dAqNRi89grcgyWgoc4OJ4ZlBaAJOe5RKKaHOibZLvY75dCT6CKCFBH1hu64jvbhOcPQW3N7fL80ZyhyLrU7Ut/hPP+59n6SK2p9bT/k0s9DtttPyLQ0Y=
