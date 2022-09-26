@@ -14,8 +14,10 @@ addons:
     organization: molgenis
     token:
       secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
+before_install:
+  - cp .travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+  - mvn clean deploy sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
   provider: releases
   token:
@@ -24,3 +26,6 @@ deploy:
   on:
     tags: true
   edge: true # opt in to dpl v2
+env:
+  global:
+    - secure: A43yYaTGJhZr+z06S31aoJUNRhzvHG9elOk0IbNShmKO6L24Oq7ljVDYryUIw5/2bgacLEDt4QNicPkyIR4lNKYmGtzuA8qXfE97ohPVo3gkxOZBMgR7yWjUw68txGcFlo+TdWqxHtCTky8Na796xzAa6dvErsnGdX+hqF6gu/SkjsGPtQiN9S7DeKk51N3acscb/LxzJ2wKw9zXmiCEtYax6+nwuaNQzdq7p7nnQjYzrrWliofmg+LN7jq4nCMiBpcmrwDaAfCfjkMGjREU56B1JjyYd4ZGlzXEXiuFqpE5dJBp2not8OHRiVdSGaP87hvrpszqY7eRvoVcJN6TVRnqyRFDBvaKibYmccnXfMUDIy6MKxsqyt/S6OmI9i04UwLfqkYTaKnOi4nq5T8cm2RnmcJpl2DIGcWtftes28r6+aspvxekkss3BSRQhoSIamD5FtRTFAYyLrKj91sls0+8O4YARIwG4FrnGYkReeRUyD8nSwWAA5AUBGuzjxfyBFR9jrF4sSa+wubjlrPSTDF6siSN8R1url4x1Wb9jzAxb2T26feIJ4+dAqNRi89grcgyWgoc4OJ4ZlBaAJOe5RKKaHOibZLvY75dCT6CKCFBH1hu64jvbhOcPQW3N7fL80ZyhyLrU7Ut/hPP+59n6SK2p9bT/k0s9DtttPyLQ0Y=
