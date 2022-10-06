@@ -50,7 +50,7 @@
     <commons.cli.version>1.4</commons.cli.version>
     <samtools.htsjdk.version>2.24.1</samtools.htsjdk.version>
     <phenopackets.version>1.0.0</phenopackets.version>
-    <opencsv.version>5.2</opencsv.version>
+    <opencsv.version>5.7.0</opencsv.version>
     <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
   </properties>
 
