@@ -1,27 +1,19 @@
 package org.molgenis.vcf.utils.vep;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
-import htsjdk.variant.vcf.VCFHeaderLineCount;
-import htsjdk.variant.vcf.VCFHeaderLineType;
 import htsjdk.variant.vcf.VCFInfoHeaderLine;
-import java.io.FileInputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.molgenis.vcf.utils.metadata.FieldMetadataService;
-import org.molgenis.vcf.utils.model.Field;
-import org.molgenis.vcf.utils.model.FieldMetadata;
-import org.molgenis.vcf.utils.model.NestedField;
-import org.molgenis.vcf.utils.model.NumberType;
-import org.molgenis.vcf.utils.model.ValueType;
+import org.molgenis.vcf.utils.model.*;
+
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class VepMetadataServiceTest {
@@ -32,7 +24,7 @@ class VepMetadataServiceTest {
   VCFInfoHeaderLine vcfInfoHeaderLine;
 
   @BeforeEach
-  private void setUp(){
+  void setUp(){
     when(vcfInfoHeaderLine.getID()).thenReturn("CSQ");
     when(vcfInfoHeaderLine.getDescription()).thenReturn(
         "Consequence annotations from Ensembl VEP. Format: VKGL_CL|VIPP|CAPICE_CL|TEST");
