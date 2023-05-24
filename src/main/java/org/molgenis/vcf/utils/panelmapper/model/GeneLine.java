@@ -1,4 +1,4 @@
-package org.molgenis.vip.config.panelmapper.model;
+package org.molgenis.vcf.utils.panelmapper.model;
 
 import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;

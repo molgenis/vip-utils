@@ -96,24 +96,18 @@ public class PedToSamplesMapper {
   }
 
   private static Sex map(PedIndividual.Sex sex) {
-    switch (sex) {
-      case MALE:
-        return Sex.MALE;
-      case FEMALE:
-        return Sex.FEMALE;
-      default:
-        return Sex.UNKNOWN;
-    }
+    return switch (sex) {
+      case MALE -> Sex.MALE;
+      case FEMALE -> Sex.FEMALE;
+      default -> Sex.UNKNOWN;
+    };
   }
 
   private static AffectedStatus map(AffectionStatus affectionStatus) {
-    switch (affectionStatus) {
-      case AFFECTED:
-        return AffectedStatus.AFFECTED;
-      case UNAFFECTED:
-        return AffectedStatus.UNAFFECTED;
-      default:
-        return AffectedStatus.MISSING;
-    }
+    return switch (affectionStatus) {
+      case AFFECTED -> AffectedStatus.AFFECTED;
+      case UNAFFECTED -> AffectedStatus.UNAFFECTED;
+      default -> AffectedStatus.MISSING;
+    };
   }
 }
