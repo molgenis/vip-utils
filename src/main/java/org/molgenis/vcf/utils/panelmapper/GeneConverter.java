@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.molgenis.vip.config.panelmapper.model.GeneLine;
+
+import org.molgenis.vcf.utils.panelmapper.model.GeneLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
