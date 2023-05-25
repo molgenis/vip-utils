@@ -1,5 +1,6 @@
 package org.molgenis.vcf.report.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -80,7 +81,9 @@ assertEquals(expected, actual);
     List<Sample> samples = Collections.emptyList();
     assertThrows(
         IllegalPhenotypeArgumentException.class,
-        () -> phenopacketMapper.mapPhenotypes("sample1/HP:123,sample2/headache;omim:234", samples));
+        () -> {
+          phenopacketMapper.mapPhenotypes("sample1/HP:123,sample2/headache;omim:234", samples);
+        });
   }
 
   private Phenopacket createPhenopacket(String sampleId, List<String> phenotypes) {
