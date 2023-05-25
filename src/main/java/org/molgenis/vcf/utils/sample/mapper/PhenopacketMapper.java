@@ -29,10 +29,15 @@ public class PhenopacketMapper {
     for (SamplePhenotype samplePhenotype : phenotypeList) {
       PhenotypeMode mode = samplePhenotype.getMode();
       switch (mode) {
-        case STRING -> createPhenopacketsForSamples(samples, phenopackets, samplePhenotype);
-        case PER_SAMPLE_STRING -> mapPhenotypes(
-                phenopackets, samplePhenotype.getSubjectId(), samplePhenotype.getPhenotypes());
-        default -> throw new UnexpectedEnumException(mode);
+        case STRING:
+          createPhenopacketsForSamples(samples, phenopackets, samplePhenotype);
+          break;
+        case PER_SAMPLE_STRING:
+          mapPhenotypes(
+              phenopackets, samplePhenotype.getSubjectId(), samplePhenotype.getPhenotypes());
+          break;
+        default:
+          throw new UnexpectedEnumException(mode);
       }
     }
     return phenopackets;

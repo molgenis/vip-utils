@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VepMetadataService implements FieldMetadataService {
 
-  private final FieldMetadataService fieldMetadataService;
+  private FieldMetadataService fieldMetadataService;
 
   private static final String INFO_DESCRIPTION_PREFIX = "Consequence annotations from Ensembl VEP. Format: ";
 
