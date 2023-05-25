@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.molgenis.vcf.utils.panelmapper.model.GeneLine;
@@ -42,8 +41,7 @@ public class GeneConverter {
   private static List<String> mapPanel(Path inputPath, Map<String, String> mapping) {
     List<String> result;
     try (Stream<String> lines = Files.lines(inputPath)) {
-      result = lines.map(symbol -> mapSymbol(symbol, mapping))
-          .collect(Collectors.toList());
+      result = lines.map(symbol -> mapSymbol(symbol, mapping)).toList();
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
