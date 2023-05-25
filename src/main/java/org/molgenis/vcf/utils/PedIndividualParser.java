@@ -17,36 +17,20 @@ class PedIndividualParser {
   }
 
   private Sex parseSex(String token) {
-    Sex sex;
-    switch (token) {
-      case "1":
-        sex = Sex.MALE;
-        break;
-      case "2":
-        sex = Sex.FEMALE;
-        break;
-      default:
-        sex = Sex.UNKNOWN;
-        break;
-    }
-    return sex;
+    return switch (token) {
+      case "1" -> Sex.MALE;
+      case "2" -> Sex.FEMALE;
+      default -> Sex.UNKNOWN;
+    };
   }
 
   private AffectionStatus parseAffectionStatus(String token) {
-    AffectionStatus affectionStatus;
-    switch (token) {
-      case "-9","0":
-        affectionStatus = AffectionStatus.UNKNOWN;
-        break;
-      case "1":
-        affectionStatus = AffectionStatus.UNAFFECTED;
-        break;
-      case "2":
-        affectionStatus = AffectionStatus.AFFECTED;
-        break;
-      default:
-        throw new UnsupportedPedException(token);
-    }
+    AffectionStatus affectionStatus = switch (token) {
+      case "-9", "0" -> AffectionStatus.UNKNOWN;
+      case "1" -> AffectionStatus.UNAFFECTED;
+      case "2" -> AffectionStatus.AFFECTED;
+      default -> throw new UnsupportedPedException(token);
+    };
     return affectionStatus;
   }
 }
