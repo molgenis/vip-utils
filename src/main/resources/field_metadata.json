@@ -139,6 +139,13 @@
           "separator": "&",
           "type": "STRING"
         },
+        "GADO": {
+          "label": "GADO",
+          "description": "The combined prioritization GADO Z-score over the supplied HPO terms for this case.",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
         "gnomAD_AF": {
           "label": "gnomAD AF",
           "description": "gnomAD allele frequency",
