@@ -139,8 +139,19 @@
           "separator": "&",
           "type": "STRING"
         },
-        "GADO": {
-          "label": "GADO",
+        "GADO_CL": {
+          "label": "GADO_CL",
+          "description": "The GADO predicion for the relation between the HPO terms and the gene, HC: high confidence, LC: low confidence.",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "categories": [
+            "LC",
+            "HC"
+          ]
+        },
+        "GADO_SC": {
+          "label": "GADO_SC",
           "description": "The combined prioritization GADO Z-score over the supplied HPO terms for this case.",
           "numberType": "NUMBER",
           "numberCount": 1,
