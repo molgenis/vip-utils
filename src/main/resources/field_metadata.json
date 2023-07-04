@@ -139,7 +139,7 @@
           "separator": "&",
           "type": "STRING"
         },
-        "GADO_CL": {
+        "GADO_PD": {
           "label": "GADO_PD",
           "description": "The GADO prediction for the relation between the HPO terms of the proband(s) and the gene, HC: high confidence, LC: low confidence.",
           "numberType": "NUMBER",
