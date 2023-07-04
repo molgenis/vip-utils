@@ -139,9 +139,20 @@
           "separator": "&",
           "type": "STRING"
         },
-        "GADO": {
-          "label": "GADO",
-          "description": "The combined prioritization GADO Z-score over the supplied HPO terms for this case.",
+        "GADO_PD": {
+          "label": "GADO_PD",
+          "description": "The GADO prediction for the relation between the HPO terms of the proband(s) and the gene, HC: high confidence, LC: low confidence.",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "categories": [
+            "LC",
+            "HC"
+          ]
+        },
+        "GADO_SC": {
+          "label": "GADO_SC",
+          "description": "The combined prioritization GADO Z-score over the HPO of the proband(s) terms for this case.",
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "FLOAT"
