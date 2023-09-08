@@ -11,7 +11,7 @@
         },
         "ALPHSCORE": {
           "label": "AlphScore",
-          "description": "AlphScore",
+          "description": "AlphScore pathogenicity score for missense variants",
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "FLOAT"
