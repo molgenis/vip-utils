@@ -9,6 +9,13 @@
           "numberCount": 1,
           "type": "INTEGER"
         },
+        "ALPHSCORE": {
+          "label": "AlphScore",
+          "description": "AlphScore",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
         "CAPICE_CL": {
           "label": "CAPICE",
           "description": "CAPICE classification",
