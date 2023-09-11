@@ -1,5 +1,7 @@
 package org.molgenis.vcf.utils;
 
+import java.io.Serial;
+
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -8,7 +10,8 @@ import static java.util.Objects.requireNonNull;
  * strategy.
  */
 public class UnexpectedEnumException extends RuntimeException {
-
+  @Serial
+  private static final long serialVersionUID = 1L;
   private static final String UNEXPECTED_ENUM_CONSTANT_FORMAT =
       "Unexpected enum constant '%s' for type '%s'";
 
