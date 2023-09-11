@@ -3,8 +3,11 @@ package org.molgenis.vcf.utils.metadata;
 
 import org.springframework.lang.NonNull;
 
-public class UnknownFieldException extends RuntimeException {
+import java.io.Serial;
 
+public class UnknownFieldException extends RuntimeException {
+  @Serial
+  private static final long serialVersionUID = 1L;
   private static final String MESSAGE = "No known nested metadata for identifier '%s'.";
   private final String id;
 

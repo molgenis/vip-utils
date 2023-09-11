@@ -1,7 +1,10 @@
 package org.molgenis.vcf.utils.sample.mapper;
 
-public class VcfParseException extends RuntimeException {
+import java.io.Serial;
 
+public class VcfParseException extends RuntimeException {
+  @Serial
+  private static final long serialVersionUID = 1L;
   public VcfParseException(String message) {
     super(message);
   }

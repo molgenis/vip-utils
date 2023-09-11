@@ -5,7 +5,6 @@ import lombok.Builder.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -16,6 +15,5 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper=true)
 public class NestedField extends Field {
-  @NonNull
   @Default int index = -1;
 }
