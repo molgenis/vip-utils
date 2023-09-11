@@ -86,7 +86,6 @@ class PanelMapper{
     } else {
       outputPath = Path.of(commandLine
             .getOptionValue(OPT_INPUT)
-            .replace(" ", "_")
             .replace(".txt", "_mapped.tsv"));
     }
     return outputPath;

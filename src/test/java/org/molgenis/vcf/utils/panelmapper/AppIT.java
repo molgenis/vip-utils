@@ -32,7 +32,7 @@ class AppIT {
     assertEquals(expected, output);
   }
   @Test
-  void testNoOuputParam() throws IOException {
+  void testNoOutputParam() throws IOException {
     File inputFile = ResourceUtils.getFile("classpath:panel.txt");
     String inputPath = inputFile.toString();
     String mappingFile = ResourceUtils.getFile("classpath:mapping.txt").toString();
@@ -43,7 +43,6 @@ class AppIT {
     Path expectedPath = ResourceUtils.getFile("classpath:expected.tsv").toPath();
     String expected = Files.readString(expectedPath).replaceAll("\\R", "\n");
     Path outputPath = Path.of(inputFile.getPath()
-            .replace(" ", "_")
             .replace(".txt", "_mapped.tsv"));
     String output = Files.readString(outputPath).replaceAll("\\R", "\n");
     assertEquals(expected, output);
