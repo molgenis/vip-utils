@@ -13,7 +13,7 @@
 
   <groupId>org.molgenis</groupId>
   <artifactId>vip-utils</artifactId>
-  <version>1.4.1</version>
+  <version>1.4.2</version>
 
   <name>vip-utils</name>
   <description>Shared classes and tools between VIP repo's</description>
