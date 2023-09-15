@@ -64,6 +64,12 @@
           "numberType": "OTHER",
           "type": "INTEGER"
         },
+        "clinVar_CLNID": {
+          "label": "ClinVar ID",
+          "description": "ClinVar Variation ID",
+          "numberType": "OTHER",
+          "type": "INTEGER"
+        },
         "clinVar_CLNSIG": {
           "label": "ClinVar variant",
           "description": "Clinical significance for this single variant",
