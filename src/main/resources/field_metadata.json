@@ -242,7 +242,7 @@
         },
         "ncER": {
           "label": "ncER",
-          "description": "ncER score",
+          "description": "Non-coding essential regulation, from: 0(probably not essential for regulation) to 100 (probably essential for regulation).",
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "FLOAT"
