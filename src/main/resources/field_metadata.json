@@ -240,6 +240,13 @@
           "separator": "&",
           "type": "STRING"
         },
+        "ncER": {
+          "label": "ncER",
+          "description": "ncER score",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
         "PHENO": {
           "label": "Pheno",
           "description": "Phenotype match.",
