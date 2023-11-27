@@ -244,8 +244,8 @@
           "required": true
         },
         "IncompletePenetrance": {
-          "label": "Inc.Pen.",
-          "description": "Incomplete Penetrance (1:true)",
+          "label": "Gene: Inc.Pen.",
+          "description": "The gene is associated with Incomplete Penetrance (1:true)",
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "STRING"
