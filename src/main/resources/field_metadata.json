@@ -1,4 +1,21 @@
 {
+  "format": {
+    "VI": {
+      "label": "Inheritance",
+      "description": "An enumeration of possible inheritance modes based on the pedigree of the sample. Potential values: AD, AD_IP, AR, AR_C, XLR, XLD",
+      "numberType": "OTHER",
+      "separator": ",",
+      "type": "CATEGORICAL",
+      "categories": [
+        "AD",
+        "AD_IP",
+        "AR",
+        "AR_C",
+        "XLD",
+        "XLR"
+      ]
+    }
+  },
   "info": {
     "CSQ": {
       "nestedFields": {
