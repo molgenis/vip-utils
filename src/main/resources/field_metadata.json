@@ -194,12 +194,52 @@
           "numberCount": 1,
           "type": "FLOAT"
         },
+        "gnomAD_COV": {
+          "label": "gnomAD COV",
+          "description": "gnomAD coverage (percent of individuals in gnomAD source)",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
+        "gnomAD_FAF95": {
+          "label": "gnomAD FAF95",
+          "description": "gnomAD filter allele frequency (95% confidence)",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
+        "gnomAD_FAF99": {
+          "label": "gnomAD FAF99",
+          "description": "gnomAD filter allele frequency (99% confidence)",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "FLOAT"
+        },
         "gnomAD_HN": {
           "label": "gnomAD HN",
           "description": "gnomAD number of homozygotes",
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "INTEGER"
+        },
+        "gnomAD_SRC": {
+          "label": "gnomAD SRC",
+          "description": "gnomAD source (E=exomes, G=genomes, T=total)",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "categories": [
+            "E",
+            "G",
+            "T"
+          ]
+        },
+        "gnomAD_QC": {
+          "label": "gnomAD QC",
+          "description": "gnomAD quality control filters that failed",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "STRING"
         },
         "HGNC_ID": {
           "label": "HGNC ID",
