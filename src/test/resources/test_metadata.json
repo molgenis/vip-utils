@@ -44,13 +44,11 @@
   },
   "format": {
     "TEST": {
-      "field": {
-        "label": "TEST",
-        "description": "TEST",
-        "numberType": "NUMBER",
-        "numberCount": 1,
-        "type": "STRING"
-      }
+      "label": "TEST",
+      "description": "TEST",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "STRING"
     }
   }
 }

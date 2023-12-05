@@ -18,5 +18,5 @@ import lombok.experimental.NonFinal;
 @NonFinal
 public class FieldMetadatas {
   @NonNull @Default Map<String, FieldMetadata> info = Collections.emptyMap();
-  @NonNull @Default Map<String, FieldMetadata> format = Collections.emptyMap();
+  @NonNull @Default Map<String, Field> format = Collections.emptyMap();
 }
