@@ -146,6 +146,7 @@
           <configuration>
             <compilerArgs>
               <arg>-Xlint</arg>
+              <arg>-Xlint:-processing</arg><!-- disable: perfectly normal for annotations to not have a processor -->
             </compilerArgs>
           </configuration>
         </plugin>
