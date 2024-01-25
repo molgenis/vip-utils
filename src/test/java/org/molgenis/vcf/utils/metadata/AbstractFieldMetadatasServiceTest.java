@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import htsjdk.variant.vcf.VCFHeaderLineCount;
-import htsjdk.variant.vcf.VCFHeaderLineType;
 import htsjdk.variant.vcf.VCFInfoHeaderLine;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +20,7 @@ import org.molgenis.vcf.utils.model.NumberType;
 import org.molgenis.vcf.utils.model.ValueType;
 
 @ExtendWith(MockitoExtension.class)
-class FieldMetadatasServiceImplTest {
+class AbstractFieldMetadataServiceTest {
 
   @Test
   void load() throws FileNotFoundException {
@@ -30,7 +28,12 @@ class FieldMetadatasServiceImplTest {
     when(vcfInfoHeaderLine.getID()).thenReturn("CSQ");
 
     Path path = Paths.get("src", "test", "resources", "test_metadata.json");
-    FieldMetadataServiceImpl metadataService = new FieldMetadataServiceImpl();
+    AbstractFieldMetadataService metadataService = new AbstractFieldMetadataService(){
+      @Override
+      public FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine) {
+        throw new UnsupportedOperationException();
+      }
+    };
 
     FieldMetadata actual = metadataService.load(new FileInputStream(path.toString()),
         vcfInfoHeaderLine);

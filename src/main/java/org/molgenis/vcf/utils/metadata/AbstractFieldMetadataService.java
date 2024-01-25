@@ -2,24 +2,17 @@ package org.molgenis.vcf.utils.metadata;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import htsjdk.variant.vcf.VCFInfoHeaderLine;
+import org.molgenis.vcf.utils.model.FieldMetadata;
+import org.molgenis.vcf.utils.model.FieldMetadatas;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import org.molgenis.vcf.utils.model.FieldMetadata;
-import org.molgenis.vcf.utils.model.FieldMetadatas;
-import org.springframework.stereotype.Component;
 
-@Component
-public class FieldMetadataServiceImpl implements FieldMetadataService {
+public abstract class AbstractFieldMetadataService implements FieldMetadataService {
   private FieldMetadatas fieldMetadatas;
 
-  @Override
-  public FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine) {
-    InputStream in = FieldMetadataServiceImpl.class.getClassLoader()
-        .getResourceAsStream("field_metadata.json");
-
-    return load(in, vcfInfoHeaderLine);
-  }
+  public abstract FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine);
 
   //Custom path used only for testing purposes
   protected FieldMetadata load(InputStream in, VCFInfoHeaderLine vcfInfoHeaderLine) {
