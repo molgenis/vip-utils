@@ -10,10 +10,7 @@ import org.molgenis.vcf.utils.model.NestedField;
 import org.molgenis.vcf.utils.model.NumberType;
 import org.molgenis.vcf.utils.model.ValueType;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,7 +65,7 @@ class AbstractFieldMetadataServiceTest {
   @Test
   void loadIllegalInput() {
     VCFInfoHeaderLine vcfInfoHeaderLine = mock(VCFInfoHeaderLine.class);
-    String jsonInvalid="invalid_json";
-    assertThrows(UncheckedIOException.class, () -> fieldMetadataService.load(new ByteArrayInputStream(jsonInvalid.getBytes(StandardCharsets.UTF_8)), vcfInfoHeaderLine));
+    InputStream inputStream = new ByteArrayInputStream("invalid_json".getBytes(StandardCharsets.UTF_8));
+    assertThrows(UncheckedIOException.class, () -> fieldMetadataService.load(inputStream, vcfInfoHeaderLine));
   }
 }
