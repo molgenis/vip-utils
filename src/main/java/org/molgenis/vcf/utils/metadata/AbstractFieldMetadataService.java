@@ -12,8 +12,6 @@ import java.io.UncheckedIOException;
 public abstract class AbstractFieldMetadataService implements FieldMetadataService {
   private FieldMetadatas fieldMetadatas;
 
-  public abstract FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine);
-
   //Custom path used only for testing purposes
   protected FieldMetadata load(InputStream in, VCFInfoHeaderLine vcfInfoHeaderLine) {
     ObjectMapper mapper = new ObjectMapper();
