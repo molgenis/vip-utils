@@ -1,26 +1,42 @@
 package org.molgenis.vcf.utils.metadata;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import htsjdk.variant.vcf.VCFInfoHeaderLine;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.molgenis.vcf.utils.model.FieldMetadata;
+import org.molgenis.vcf.utils.model.NestedField;
+import org.molgenis.vcf.utils.model.NumberType;
+import org.molgenis.vcf.utils.model.ValueType;
+
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.molgenis.vcf.utils.model.NestedField;
-import org.molgenis.vcf.utils.model.FieldMetadata;
-import org.molgenis.vcf.utils.model.NumberType;
-import org.molgenis.vcf.utils.model.ValueType;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AbstractFieldMetadataServiceTest {
+  private AbstractFieldMetadataService fieldMetadataService;
+  @BeforeEach
+  void setUp() {
+    fieldMetadataService = new AbstractFieldMetadataService(){
+      @Override
+      public FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine) {
+        throw new UnsupportedOperationException();
+      }
+    };
+  }
 
   @Test
   void load() throws FileNotFoundException {
@@ -28,14 +44,8 @@ class AbstractFieldMetadataServiceTest {
     when(vcfInfoHeaderLine.getID()).thenReturn("CSQ");
 
     Path path = Paths.get("src", "test", "resources", "test_metadata.json");
-    AbstractFieldMetadataService metadataService = new AbstractFieldMetadataService(){
-      @Override
-      public FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine) {
-        throw new UnsupportedOperationException();
-      }
-    };
 
-    FieldMetadata actual = metadataService.load(new FileInputStream(path.toString()),
+    FieldMetadata actual = fieldMetadataService.load(new FileInputStream(path.toString()),
         vcfInfoHeaderLine);
 
     NestedField nestedField2 = NestedField.builder().index(-1)
@@ -55,6 +65,10 @@ class AbstractFieldMetadataServiceTest {
     FieldMetadata expected = FieldMetadata.builder().nestedFields(vepMeta).build();
     assertEquals(expected, actual);
   }
-
-
+  @Test
+  void loadIllegalInput() {
+    VCFInfoHeaderLine vcfInfoHeaderLine = mock(VCFInfoHeaderLine.class);
+    String jsonInvalid="invalid_json";
+    assertThrows(UncheckedIOException.class, () -> fieldMetadataService.load(new ByteArrayInputStream(jsonInvalid.getBytes(StandardCharsets.UTF_8)), vcfInfoHeaderLine));
+  }
 }
