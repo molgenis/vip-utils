@@ -1,27 +1,24 @@
 package org.molgenis.vcf.utils.vep;
 
 import htsjdk.variant.vcf.VCFInfoHeaderLine;
+import org.molgenis.vcf.utils.metadata.FieldMetadataService;
+import org.molgenis.vcf.utils.model.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.molgenis.vcf.utils.metadata.FieldMetadataService;
-import org.molgenis.vcf.utils.model.Field;
-import org.molgenis.vcf.utils.model.NestedField;
-import org.molgenis.vcf.utils.model.FieldMetadata;
-import org.molgenis.vcf.utils.model.NumberType;
-import org.molgenis.vcf.utils.model.ValueType;
-import org.springframework.stereotype.Component;
 
-@Component
+import static java.util.Objects.requireNonNull;
+
 public class VepMetadataService implements FieldMetadataService {
 
-  private FieldMetadataService fieldMetadataService;
+  private final FieldMetadataService fieldMetadataService;
 
   private static final String INFO_DESCRIPTION_PREFIX = "Consequence annotations from Ensembl VEP. Format: ";
 
   public VepMetadataService(
       FieldMetadataService fieldMetadataService) {
-    this.fieldMetadataService = fieldMetadataService;
+    this.fieldMetadataService = requireNonNull(fieldMetadataService);
   }
 
   @Override
