@@ -21,5 +21,4 @@ public class Field {
   Set<String> categories;
   @NonNull String label;
   @NonNull String description;
-  @Default boolean genotype = false;
 }

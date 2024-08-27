@@ -6,5 +6,6 @@ public enum ValueType {
   FLAG,
   CHARACTER,
   STRING,
-  CATEGORICAL
+  CATEGORICAL,
+  RANGE
 }
