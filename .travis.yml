@@ -1,7 +1,7 @@
 os: linux
 dist: jammy
 language: java
-jdk: openjdk21
+
 cache:
   directories:
   - "$HOME/.m2"
@@ -16,8 +16,20 @@ addons:
       secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
 before_install:
 - cp travis.settings.xml $HOME/.m2/settings.xml
+install: true
 script:
+- curl -sL https://get.sdkman.io | bash
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- sdk install java 21.0.3-graal
+- java -version
+- sdk install maven
+- mvn --version
+- echo %JAVA_HOME%
 - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+
+
 deploy:
 - provider: releases
   token:
