@@ -20,7 +20,7 @@ before_install:
   # Check if GraalVM is already cached, if not download and install it
   - if [ ! -d "$HOME/graalvm/graalvm-ce-java11-20.3.0.2" ]; then
     echo "GraalVM is not cached, installing...";
-    wget https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-23.0.0/graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz;
+    wget https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.2/graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz;
     mkdir -p $HOME/graalvm;
     tar -xzf graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz -C $HOME/graalvm;
     else
@@ -30,7 +30,7 @@ before_install:
   # Set up environment variables for GraalVM
   - export JAVA_HOME=$HOME/graalvm/graalvm-ce-java11-21.0.2
   - export PATH=JAVA_HOME/bin:$PATH
-  - maven -version  # Verify GraalVM installation
+  - mvn -version
   - cp travis.settings.xml $HOME/.m2/settings.xml
 install: true
 script:
