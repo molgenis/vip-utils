@@ -4,8 +4,8 @@ language: java
 
 cache:
   directories:
-  - "$HOME/.m2"
-  - "/home/travis/.sdkman/candidates/java/21.0.3-graal"
+    - $HOME/.m2
+    - $HOME/graalvm
 branches:
   only:
   - main
@@ -15,19 +15,25 @@ addons:
     organization: molgenis
     token:
       secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
+
 before_install:
-- cp travis.settings.xml $HOME/.m2/settings.xml
+  # Check if GraalVM is already cached, if not download and install it
+  - if [ ! -d "$HOME/graalvm/graalvm-ce-java11-20.3.0.2" ]; then
+    echo "GraalVM is not cached, installing...";
+    wget https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-23.0.0/graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz;
+    mkdir -p $HOME/graalvm;
+    tar -xzf graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz -C $HOME/graalvm;
+    else
+    echo "Using cached GraalVM";
+    fi
+
+  # Set up environment variables for GraalVM
+  - export JAVA_HOME=$HOME/graalvm/graalvm-ce-java11-21.0.2
+  - export PATH=JAVA_HOME/bin:$PATH
+  - maven -version  # Verify GraalVM installation
+  - cp travis.settings.xml $HOME/.m2/settings.xml
 install: true
 script:
-  - if [ ! -d "/home/travis/.sdkman/candidates/java/21.0.3-graal"]; then
-      curl -sL https://get.sdkman.io | bash
-      source "$HOME/.sdkman/bin/sdkman-init.sh"
-      echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
-      source "$HOME/.sdkman/bin/sdkman-init.sh"
-      sdk install java 21.0.3-graal
-    fi
-  - export JAVA_HOME=/home/travis/.sdkman/candidates/java/21.0.3-graal
-  - export PATH=$JAVA_HOME/bin:$PATH
   - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
 - provider: releases
