@@ -27,11 +27,8 @@ before_install:
     echo "Using cached GraalVM";
     fi
 
-  - java -version
-  # Set up environment variables for GraalVM
   - export JAVA_HOME=$HOME/graalvm/graalvm-community-openjdk-21.0.2+13.1
   - export PATH=JAVA_HOME/bin:$PATH
-  - mvn -version
   - cp travis.settings.xml $HOME/.m2/settings.xml
 install: true
 script:
