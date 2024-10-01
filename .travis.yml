@@ -5,6 +5,7 @@ language: java
 cache:
   directories:
   - "$HOME/.m2"
+  - "/home/travis/.sdkman/candidates/java/21.0.3-graal"
 branches:
   only:
   - main
@@ -18,15 +19,16 @@ before_install:
 - cp travis.settings.xml $HOME/.m2/settings.xml
 install: true
 script:
-- curl -sL https://get.sdkman.io | bash
-- source "$HOME/.sdkman/bin/sdkman-init.sh"
-- echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
-- source "$HOME/.sdkman/bin/sdkman-init.sh"
-- sdk install java 21.0.3-graal
-- export JAVA_HOME=/home/travis/.sdkman/candidates/java/21.0.3-graal
-- export PATH=$JAVA_HOME/bin:$PATH
-- mvn -version
-- mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+  - if [ ! -d "/home/travis/.sdkman/candidates/java/21.0.3-graal"]; then
+      curl -sL https://get.sdkman.io | bash
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+      echo sdkman_auto_answer=true > "$HOME/.sdkman/etc/config"
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+      sdk install java 21.0.3-graal
+    fi
+  - export JAVA_HOME=/home/travis/.sdkman/candidates/java/21.0.3-graal
+  - export PATH=$JAVA_HOME/bin:$PATH
+  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
 - provider: releases
   token:
