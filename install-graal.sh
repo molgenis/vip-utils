@@ -14,7 +14,5 @@ else
     echo "Using cached GraalVM";
   fi
 
-
-  export JAVA_HOME=$HOME/graalvm/graalvm-community-openjdk-21.0.2+13.1
-  export PATH=JAVA_HOME/bin:$PATH
+  mv $HOME/graalvm/graalvm-community-openjdk-21.0.2+13.1 $HOME/graalvm/graalvm
 fi
