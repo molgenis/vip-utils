@@ -25,12 +25,6 @@ install: true
 script:
   - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
 deploy:
-- provider: releases
-  token:
-    secure: IBaApKGv7jH2aidxsthwzz3ZfUdOCOlmOgj3VyArzNmjNqYJMj9oPu7aNcI6ckk2xov8DxZknk1YlwONiN+gMKHrGqMR3Ckz96QDvt2QnyIOFsd8pAfaQqeMQyY/SJkFfWFFlDFmwaamxX08jwPg4JmSjcZ45IB12EiGAGtOU2DY1UH8kCtQJzADMWHPffS6OnzAfKTDPrZuuxZ0ogiav/se3aEvOWf3/sVKeeMIHDv1Hi4DaNrXvd1CG+ivtFoQMGr3F4McZSCo+DpO/XW7/RAjkeeM8xd3qV2ng3SbF9iAfGVG3jLmfwAsNMik5rdoQTgMV665ftx8P//dimv3JQYUhPdBFcWl7pmhE2oldWDhjT/a1dkkCoqK8Rjo7F0swDdJy3ztyKCxeAA9zF/4pc3kL2fzS92w5Iltl2IZpWZUgHuhtIz9WCJ1pws9Y+fjEe+vHdVIIIIZ9jiSg0ei8yua0DW9dj7AUVUZ7Wz2IIF5jYug3qluu5dAnkq8YQB15fMUniCaPODO2WNyZQa5IaTlXp+DRoguqE95VxfpkwFOzibC1ppPciMuqBBYgMML2X1PVV93A7nOYU2UeIvAU18CotTJnY1n7p+Wnj/gdy5lEv158GHscdnZb01EHk4vZd7tAzat7/3qLcA2WkDiVp6Ln4eVYK4VSD2gVmrTPKQ=
-  file: target/vip-utils.jar
-  on:
-    tags: true
 - provider: script
   script: mvn clean deploy
   on:
