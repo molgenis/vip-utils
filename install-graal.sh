@@ -10,9 +10,8 @@ else
     wget https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-21.0.2/graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz;
     mkdir -p $HOME/graalvm;
     tar -xzf graalvm-community-jdk-21.0.2_linux-x64_bin.tar.gz -C $HOME/graalvm;
+    mv $HOME/graalvm/graalvm-community-openjdk-21.0.2+13.1 $HOME/graalvm/graalvm
     else
     echo "Using cached GraalVM";
   fi
-
-  mv $HOME/graalvm/graalvm-community-openjdk-21.0.2+13.1 $HOME/graalvm/graalvm
 fi
