@@ -31,10 +31,6 @@ public class VepMetadataService implements FieldMetadataService {
       VCFInfoHeaderLine vcfInfoHeaderLine) {
     Map<String, NestedField> postProcessedFields = new HashMap<>();
 
-    Field parent = Field.builder().label(vcfInfoHeaderLine.getID()).description(vcfInfoHeaderLine.getDescription())
-        .type(ValueType.STRING).numberType(NumberType.OTHER)
-        .separator('|').build();
-
     Map<String, Integer> nestedFieldIndices = getNestedInfoIds(vcfInfoHeaderLine);
     for (Entry<String, NestedField> entry : fieldMetadata.getNestedFields().entrySet()) {
       NestedField field = entry.getValue();
@@ -48,8 +44,9 @@ public class VepMetadataService implements FieldMetadataService {
       }
     }
 
-    return FieldMetadata.builder().field(parent)
-        .nestedFields(addUnmappedFields(postProcessedFields, nestedFieldIndices)).build();
+    return FieldMetadata.builder().label(vcfInfoHeaderLine.getID()).description(vcfInfoHeaderLine.getDescription())
+            .type(ValueType.STRING).numberType(NumberType.OTHER)
+            .separator('|').nestedFields(addUnmappedFields(postProcessedFields, nestedFieldIndices)).build();
   }
 
   private Map<String, NestedField> addUnmappedFields(Map<String, NestedField> metadataFields, Map<String, Integer> nestedFieldIndices) {

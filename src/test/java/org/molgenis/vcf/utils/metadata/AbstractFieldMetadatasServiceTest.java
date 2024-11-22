@@ -5,17 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.molgenis.vcf.utils.model.FieldMetadata;
-import org.molgenis.vcf.utils.model.NestedField;
-import org.molgenis.vcf.utils.model.NumberType;
-import org.molgenis.vcf.utils.model.ValueType;
+import org.molgenis.vcf.utils.model.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,7 +44,9 @@ class AbstractFieldMetadataServiceTest {
     NestedField nestedField2 = NestedField.builder().index(-1)
         .numberType(NumberType.NUMBER)
         .numberCount(1).type(ValueType.CATEGORICAL).categories(
-            Set.of("P", "LP", "VUS", "LB", "B")).required(false).label("CAPICE_CL").description("CAPICE_CL")
+                    Map.of("P", new ValueDescription("P", "Description P"), "LP", new ValueDescription("LP", null),
+                            "VUS", new ValueDescription("VUS", null), "LB", new ValueDescription("LB", null),
+                            "B", new ValueDescription("B", null))).required(false).label("CAPICE_CL").description("CAPICE_CL")
         .build();
     NestedField nestedField3 = NestedField.builder().index(-1).separator('&')
         .numberType(NumberType.OTHER)

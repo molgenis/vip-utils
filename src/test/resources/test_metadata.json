@@ -1,13 +1,11 @@
 {
   "info": {
     "TEST": {
-      "field": {
-        "label": "TEST",
-        "description": "TEST",
-        "numberType": "NUMBER",
-        "numberCount": 1,
-        "type": "STRING"
-      }
+      "label": "TEST",
+      "description": "TEST",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "STRING"
     },
     "CSQ": {
       "nestedFields": {
@@ -24,13 +22,13 @@
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "CATEGORICAL",
-          "categories": [
-            "B",
-            "LB",
-            "VUS",
-            "LP",
-            "P"
-          ]
+          "categories": {
+            "B": {"label": "B"},
+            "LB": {"label": "LB"},
+            "VUS": {"label": "VUS"},
+            "LP": {"label": "LP"},
+            "P": {"label": "P", "description": "Description P"}
+          }
         },
         "PHENO": {
           "label": "PHENO",

@@ -14,6 +14,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper=true)
-public class NestedField extends Field {
+public class NestedField extends FieldMetadata {
   @Default int index = -1;
 }

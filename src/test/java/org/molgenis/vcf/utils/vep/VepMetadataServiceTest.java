@@ -10,7 +10,6 @@ import org.molgenis.vcf.utils.metadata.FieldMetadataService;
 import org.molgenis.vcf.utils.model.*;
 
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -32,7 +31,9 @@ class VepMetadataServiceTest {
     NestedField nestedField2 = NestedField.builder().index(-1)
         .numberType(NumberType.NUMBER)
         .numberCount(1).type(ValueType.CATEGORICAL).categories(
-            Set.of("P", "LP", "VUS", "LB", "B")).required(false).label("CAPICE_CL").description("CAPICE_CL")
+                    Map.of("P", new ValueDescription("P", "desc"), "LP", new ValueDescription("LP", "desc"),
+                            "VUS", new ValueDescription("VUS", "desc"), "LB", new ValueDescription("LB", "desc"),
+                            "B", new ValueDescription("B", "desc"))).required(false).label("CAPICE_CL").description("CAPICE_CL")
         .build();
     NestedField nestedField3 = NestedField.builder().index(-1).separator('&')
         .numberType(NumberType.OTHER)
@@ -58,7 +59,9 @@ VepMetadataService vepMetadataService = new VepMetadataService(fieldMetadataServ
     NestedField nestedField2 = NestedField.builder().index(2)
         .numberType(NumberType.NUMBER)
         .numberCount(1).type(ValueType.CATEGORICAL).categories(
-            Set.of("P", "LP", "VUS", "LB", "B")).required(false).label("CAPICE_CL").description("CAPICE_CL")
+                    Map.of("P", new ValueDescription("P", "desc"), "LP", new ValueDescription("LP", "desc"),
+                            "VUS", new ValueDescription("VUS", "desc"), "LB", new ValueDescription("LB", "desc"),
+                            "B", new ValueDescription("B", "desc"))).required(false).label("CAPICE_CL").description("CAPICE_CL")
         .build();
     NestedField nestedField3 = NestedField.builder().index(3)
         .numberType(NumberType.NUMBER).numberCount(1)
@@ -70,11 +73,11 @@ VepMetadataService vepMetadataService = new VepMetadataService(fieldMetadataServ
     Map<String, NestedField> vepMeta = Map.of(
         "VKGL_CL", nestedField1, "CAPICE_CL", nestedField2, "TEST", nestedField3, "VIPP",
         nestedField4);
-    Field parent = Field.builder().numberType(NumberType.OTHER)
-        .type(ValueType.STRING).label("CSQ").description(
-            "Consequence annotations from Ensembl VEP. Format: VKGL_CL|VIPP|CAPICE_CL|TEST")
-        .required(false).separator('|').build();
-    FieldMetadata expected = FieldMetadata.builder().field(parent).nestedFields(vepMeta).build();
-    assertEquals(expected, vepMetadataService.load(vcfInfoHeaderLine));
+    FieldMetadata expected = FieldMetadata.builder().numberType(NumberType.OTHER)
+            .type(ValueType.STRING).label("CSQ").description(
+                    "Consequence annotations from Ensembl VEP. Format: VKGL_CL|VIPP|CAPICE_CL|TEST")
+            .required(false).separator('|').nestedFields(vepMeta).build();
+      FieldMetadata actual = vepMetadataService.load(vcfInfoHeaderLine);
+    assertEquals(expected, actual);
   }
 }
