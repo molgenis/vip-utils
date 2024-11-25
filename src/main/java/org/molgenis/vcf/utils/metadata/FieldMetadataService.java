@@ -1,9 +1,9 @@
 package org.molgenis.vcf.utils.metadata;
 
-import htsjdk.variant.vcf.VCFInfoHeaderLine;
-import org.molgenis.vcf.utils.model.FieldMetadata;
+import htsjdk.variant.vcf.VCFHeader;
+import org.molgenis.vcf.utils.model.metadata.FieldMetadatas;
 
 public interface FieldMetadataService {
 
-  FieldMetadata load(VCFInfoHeaderLine vcfInfoHeaderLine);
+  FieldMetadatas load(VCFHeader vcfHeader);
 }

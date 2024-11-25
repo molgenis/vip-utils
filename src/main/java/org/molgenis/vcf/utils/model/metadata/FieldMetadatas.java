@@ -1,15 +1,11 @@
-package org.molgenis.vcf.utils.model;
+package org.molgenis.vcf.utils.model.metadata;
+
+import lombok.*;
+import lombok.Builder.Default;
+import lombok.experimental.NonFinal;
 
 import java.util.Collections;
 import java.util.Map;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Builder.Default;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Value;
-import lombok.experimental.NonFinal;
 
 @Value
 @Builder

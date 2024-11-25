@@ -1,4 +1,4 @@
-package org.molgenis.vcf.utils.model;
+package org.molgenis.vcf.utils.metadata;
 
 public enum ValueType {
   INTEGER,
