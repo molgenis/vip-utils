@@ -1,11 +1,7 @@
-package org.molgenis.vcf.utils.model;
+package org.molgenis.vcf.utils.model.metadata;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
 import lombok.Builder.Default;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -14,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper=true)
-public class NestedField extends Field {
+public class NestedFieldMetadata extends FieldMetadata {
   @Default int index = -1;
 }

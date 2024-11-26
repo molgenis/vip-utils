@@ -1,4 +1,4 @@
-package org.molgenis.vcf.utils.model;
+package org.molgenis.vcf.utils.model.json;
 
 import java.util.Collections;
 import java.util.Map;
@@ -16,7 +16,7 @@ import lombok.experimental.NonFinal;
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NonFinal
-public class FieldMetadatas {
-  @NonNull @Default Map<String, FieldMetadata> info = Collections.emptyMap();
-  @NonNull @Default Map<String, Field> format = Collections.emptyMap();
+public class JsonFieldMetadatas {
+  @NonNull @Default Map<String, JsonFieldMetadata> info = Collections.emptyMap();
+  @NonNull @Default Map<String, JsonFieldMetadata> format = Collections.emptyMap();
 }

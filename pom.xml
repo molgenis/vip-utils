@@ -13,7 +13,7 @@
 
   <groupId>org.molgenis</groupId>
   <artifactId>vip-utils</artifactId>
-  <version>2.0.2</version>
+  <version>3.0.0</version>
 
   <name>vip-utils</name>
   <description>Shared classes and tools between VIP repo's</description>
@@ -176,6 +176,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <!-- suppress Java 21 dynamic agent loading warning, since there is no suitable fix yet -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-XX:+EnableDynamicAgentLoading</argLine>
+        </configuration>
       </plugin>
     </plugins>
   </build>

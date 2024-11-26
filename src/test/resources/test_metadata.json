@@ -1,15 +1,21 @@
 {
   "info": {
     "TEST": {
-      "field": {
-        "label": "TEST",
-        "description": "TEST",
-        "numberType": "NUMBER",
-        "numberCount": 1,
-        "type": "STRING"
-      }
+      "label": "TEST INFO",
+      "description": "TEST INFO desc",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "FLAG"
+    },
+    "NOT": {
+      "label": "TEST",
+      "description": "TEST",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "STRING"
     },
     "CSQ": {
+      "label": "VEP",
       "nestedFields": {
         "VIPP": {
           "label": "VIP path",
@@ -24,31 +30,41 @@
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "CATEGORICAL",
-          "categories": [
-            "B",
-            "LB",
-            "VUS",
-            "LP",
-            "P"
-          ]
+          "categories": {
+            "B": {"label": "B"},
+            "LB": {"label": "LB"},
+            "VUS": {"label": "VUS"},
+            "LP": {"label": "LP"},
+            "P": {"label": "P", "description": "Description P"}
+          }
         },
-        "PHENO": {
-          "label": "PHENO",
-          "description": "PHENO",
-          "numberType": "OTHER",
-          "separator": "&",
+        "TEST": {
+          "label": "TEST label",
+          "description": "TEST desc",
+          "numberType": "PER_ALT_AND_REF",
           "type": "INTEGER"
         }
       }
     }
   },
   "format": {
-    "TEST": {
+    "FORMAT1": {
       "label": "TEST",
       "description": "TEST",
       "numberType": "NUMBER",
       "numberCount": 1,
-      "type": "STRING"
+      "type": "INTEGER"
+    },
+    "NESTED_FORMAT": {
+      "nestedFields": {
+        "TEST": {
+          "label": "NESTED label",
+          "description": "NESTED desc",
+          "numberType": "PER_ALT_AND_REF",
+          "type": "INTEGER"
+        }
+      }
+      }
     }
   }
 }
