@@ -4,7 +4,7 @@ public enum FieldType {
   COMMON,
   INFO,
   /**
-   * INFO field with nested information (VEP CSQ)
+   * INFO field with nested information
    */
   INFO_NESTED,
   FORMAT,

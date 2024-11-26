@@ -68,13 +68,11 @@ class FieldMetadataServiceTest {
 
         FieldMetadatas expected = FieldMetadatas.builder().info(Map.of("CSQ", csqMeta, "TEST", testMeta, "TEST3", test3Meta)).format(Map.of("FORMAT1", format1Meta, "FORMAT2", format2Meta, "NESTED_FORMAT", formatNestedMeta)).build();
         Path path = Paths.get("src", "test", "resources", "test_metadata.json");
-        fieldMetadataService = new FieldMetadataServiceImpl(
-                Map.of(FieldIdentifier.builder().name("CSQ").type(FieldType.INFO).build(),
-                        NestedAttributes.builder().prefix("TEST:").seperator("|").build(),
-                        FieldIdentifier.builder().name("NESTED_FORMAT").type(FieldType.FORMAT).build(),
-                        NestedAttributes.builder().prefix("NESTED_FORMAT:").seperator("|").build()),
-                path.toFile());
-        FieldMetadatas actual = fieldMetadataService.load(vcfHeader);
+        fieldMetadataService = new FieldMetadataServiceImpl(path.toFile());
+        FieldMetadatas actual = fieldMetadataService.load(vcfHeader, Map.of(FieldIdentifier.builder().name("CSQ").type(FieldType.INFO).build(),
+                NestedAttributes.builder().prefix("TEST:").seperator("|").build(),
+                FieldIdentifier.builder().name("NESTED_FORMAT").type(FieldType.FORMAT).build(),
+                NestedAttributes.builder().prefix("NESTED_FORMAT:").seperator("|").build()));
         assertEquals(expected, actual);
     }
 }
