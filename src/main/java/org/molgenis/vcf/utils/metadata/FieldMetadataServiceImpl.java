@@ -31,18 +31,18 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
 
     public FieldMetadatas load(VCFHeader vcfHeader, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, FieldMetadata> infoMatadata = new HashMap<>();
+        Map<String, FieldMetadata> infoMetadata = new HashMap<>();
         Map<String, FieldMetadata> formatMetadata = new HashMap<>();
 
         try (InputStream inputStream = new FileInputStream(jsonMetadata)) {
             JsonFieldMetadatas jsonFieldMetadatas = mapper.readValue(inputStream, JsonFieldMetadatas.class);
-            vcfHeader.getInfoHeaderLines().forEach(line -> infoMatadata.put(line.getID(), mapInfoHeader(line, jsonFieldMetadatas, nestedAttributesMap)));
+            vcfHeader.getInfoHeaderLines().forEach(line -> infoMetadata.put(line.getID(), mapInfoHeader(line, jsonFieldMetadatas, nestedAttributesMap)));
             vcfHeader.getFormatHeaderLines().forEach(line -> formatMetadata.put(line.getID(), mapFormatHeader(line, jsonFieldMetadatas, nestedAttributesMap)));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        return FieldMetadatas.builder().info(infoMatadata).format(formatMetadata).build();
+        return FieldMetadatas.builder().info(infoMetadata).format(formatMetadata).build();
     }
 
     private FieldMetadata mapInfoHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
