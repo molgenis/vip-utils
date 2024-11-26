@@ -15,16 +15,19 @@ import org.molgenis.vcf.utils.model.metadata.NestedFieldMetadata;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static java.util.Objects.requireNonNull;
+import static org.molgenis.vcf.utils.metadata.FieldType.FORMAT;
+import static org.molgenis.vcf.utils.metadata.FieldType.INFO;
 import static org.molgenis.vcf.utils.metadata.ValueCount.Type.*;
 
 public class FieldMetadataServiceImpl implements FieldMetadataService {
-    private final Map<String, String> prefixes;
+    private final Map<FieldIdentifier, NestedAttributes> nestedAttributesMap;
     private final File jsonMetadata;
 
-    public FieldMetadataServiceImpl(Map<String, String> prefixes, File jsonMetadata) {
-        this.prefixes = requireNonNull(prefixes);
+    public FieldMetadataServiceImpl(Map<FieldIdentifier, NestedAttributes> nestedAttributesMap, File jsonMetadata) {
+        this.nestedAttributesMap = requireNonNull(nestedAttributesMap);
         this.jsonMetadata = requireNonNull(jsonMetadata);
     }
 
@@ -98,12 +101,15 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
 
     private Map<String, NestedFieldMetadata> mapNestedFields(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         Map<String, NestedFieldMetadata> nestedFields = new HashMap<>();
-        if (!prefixes.containsKey(line.getID())) {
-            throw new MissingPrefixException(line.getID());
+        FieldType type = line instanceof VCFInfoHeaderLine ? INFO : FORMAT;
+        FieldIdentifier identifier = FieldIdentifier.builder().name(line.getID()).type(type).build();
+        if (!nestedAttributesMap.containsKey(identifier)) {
+            throw new MissingPrefixException(identifier);
         }
-        String prefix = prefixes.get(line.getID());
+        NestedAttributes nestedAttributes = nestedAttributesMap.get(identifier);
         String description = line.getDescription();
-        String[] infoIds = description.substring(prefix.length()).split("\\|", -1);
+        String escapedSeparator = Pattern.quote(nestedAttributes.getSeperator());
+        String[] infoIds = description.substring(nestedAttributes.getPrefix().length()).split(escapedSeparator, -1);
         int index = 0;
         for (String id : infoIds) {
             NestedFieldMetadata.NestedFieldMetadataBuilder<?, ?> nestedFieldMetadataBuilder = NestedFieldMetadata
