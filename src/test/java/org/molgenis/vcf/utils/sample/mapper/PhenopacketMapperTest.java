@@ -3,9 +3,6 @@ package org.molgenis.vcf.utils.sample.mapper;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.molgenis.vcf.utils.sample.model.*;
 
 import java.util.ArrayList;
@@ -16,10 +13,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
 class PhenopacketMapperTest {
 
-    @Mock
     private PhenopacketMapper phenopacketMapper;
 
     @BeforeEach
