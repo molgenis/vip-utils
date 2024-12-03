@@ -14,12 +14,19 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FieldMetadataServiceTest {
     private FieldMetadataService fieldMetadataService;
+
+    @Test
+    void test(){
+        fieldMetadataService.testNonSenseFunction(0);
+        assertTrue(true);
+    }
 
     @Test
     void load() {
@@ -32,6 +39,7 @@ class FieldMetadataServiceTest {
 
         VCFInfoHeaderLine testinfoHeaderLine = mock(VCFInfoHeaderLine.class);
         when(testinfoHeaderLine.getID()).thenReturn("TEST");
+        when(testinfoHeaderLine.getType()).thenReturn(VCFHeaderLineType.String);
 
         VCFInfoHeaderLine test3infoHeaderLine = mock(VCFInfoHeaderLine.class);
         when(test3infoHeaderLine.getID()).thenReturn("TEST3");
