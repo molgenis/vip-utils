@@ -13,8 +13,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,8 +23,7 @@ class FieldMetadataServiceTest {
 
     @Test
     void test(){
-        fieldMetadataService.testNonSenseFunction(0);
-        assertTrue(true);
+        assertFalse(FieldMetadataServiceImpl.testNonSenseFunction(0).equals("1!"));
     }
 
     @Test

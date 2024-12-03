@@ -8,5 +8,4 @@ import java.util.Map;
 public interface FieldMetadataService {
 
   FieldMetadatas load(VCFHeader vcfHeader, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap);
-  void testNonSenseFunction(int is);
 }

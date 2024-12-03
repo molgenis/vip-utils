@@ -47,11 +47,11 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         return FieldMetadatas.builder().info(infoMetadata).format(formatMetadata).build();
     }
 
-    public void testNonSenseFunction(int i) {
+    public static String testNonSenseFunction(int i) {
         if(i>1){
-            System.out.println("i!");
+           return "i!";
         }else{
-            System.out.println("i?");
+            return "i?";
         }
     }
 
