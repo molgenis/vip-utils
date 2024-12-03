@@ -37,7 +37,6 @@ class FieldMetadataServiceTest {
 
         VCFInfoHeaderLine testinfoHeaderLine = mock(VCFInfoHeaderLine.class);
         when(testinfoHeaderLine.getID()).thenReturn("TEST");
-        when(testinfoHeaderLine.getType()).thenReturn(VCFHeaderLineType.String);
 
         VCFInfoHeaderLine test3infoHeaderLine = mock(VCFInfoHeaderLine.class);
         when(test3infoHeaderLine.getID()).thenReturn("TEST3");
