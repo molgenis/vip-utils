@@ -107,32 +107,32 @@
   </dependencies>
 
   <profiles>
-      <profile>
-          <id>coverage</id>
-          <build>
-              <plugins>
-                  <plugin>
-                      <groupId>org.jacoco</groupId>
-                      <artifactId>jacoco-maven-plugin</artifactId>
-                      <version>${jacoco-maven-plugin.version}</version>
-                      <executions>
-                          <execution>
-                              <id>prepare-agent</id>
-                              <goals>
-                                  <goal>prepare-agent</goal>
-                              </goals>
-                          </execution>
-                          <execution>
-                              <id>report</id>
-                              <goals>
-                                  <goal>report</goal>
-                              </goals>
-                          </execution>
-                      </executions>
-                  </plugin>
-              </plugins>
-          </build>
-      </profile>
+    <profile>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <id>prepare-agent</id>
+              </execution>
+              <execution>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <id>report</id>
+              </execution>
+            </executions>
+            <groupId>org.jacoco</groupId>
+            <version>${jacoco-maven-plugin.version}</version>
+          </plugin>
+        </plugins>
+      </build>
+      <id>coverage</id>
+    </profile>
   </profiles>
 
   <build>

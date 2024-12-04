@@ -42,17 +42,7 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
             throw new UncheckedIOException(e);
         }
 
-        testNonSenseFunction(1);
-
         return FieldMetadatas.builder().info(infoMetadata).format(formatMetadata).build();
-    }
-
-    public static String testNonSenseFunction(int i) {
-        if(i>1){
-           return "i!";
-        }else{
-            return "i?";
-        }
     }
 
     private FieldMetadata mapInfoHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {

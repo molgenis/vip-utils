@@ -13,18 +13,13 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FieldMetadataServiceTest {
     private FieldMetadataService fieldMetadataService;
-
-    @Test
-    void test(){
-        assertFalse(FieldMetadataServiceImpl.testNonSenseFunction(0).equals("1!"));
-    }
 
     @Test
     void load() {
