@@ -1,190 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.4</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.4</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-  <groupId>org.molgenis</groupId>
-  <artifactId>vip-utils</artifactId>
-  <version>3.0.0</version>
+    <groupId>org.molgenis</groupId>
+    <artifactId>vip-utils</artifactId>
+    <version>3.0.0</version>
 
-  <name>vip-utils</name>
-  <description>Shared classes and tools between VIP repo's</description>
+    <name>vip-utils</name>
+    <description>Shared classes and tools between VIP repo's</description>
 
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <name>GitHub Molgenis Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/molgenis/vip-utils</url>
-    </repository>
-  </distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Molgenis Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/molgenis/vip-utils</url>
+        </repository>
+    </distributionManagement>
 
-  <licenses>
-    <license>
-      <name>The GNU Lesser General Public License, Version 3.0</name>
-      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>The GNU Lesser General Public License, Version 3.0</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <scm>
-    <connection>scm:git:git://github.com/molgenis/vip-utils.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/molgenis/vip-utils.git</developerConnection>
-    <url>https://github.com/molgenis/vip-utils</url>
-  </scm>
+    <scm>
+        <connection>scm:git:git://github.com/molgenis/vip-utils.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/molgenis/vip-utils.git</developerConnection>
+        <url>https://github.com/molgenis/vip-utils</url>
+    </scm>
 
-  <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/molgenis/vip-utils/issues</url>
-  </issueManagement>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/molgenis/vip-utils/issues</url>
+    </issueManagement>
 
-  <properties>
-    <java.version>21</java.version>
-    <samtools.htsjdk.version>4.1.1</samtools.htsjdk.version>
-    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-    <opencsv.version>5.9</opencsv.version>
-    <commons.cli.version>1.9.0</commons.cli.version>
-  </properties>
+    <properties>
+        <java.version>21</java.version>
+        <samtools.htsjdk.version>4.1.3</samtools.htsjdk.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <opencsv.version>5.10</opencsv.version>
+        <commons.cli.version>1.9.0</commons.cli.version>
+    </properties>
 
-  <dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.samtools</groupId>
+                <artifactId>htsjdk</artifactId>
+                <version>${samtools.htsjdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${commons.cli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>${opencsv.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-      <dependency>
-        <groupId>com.github.samtools</groupId>
-        <artifactId>htsjdk</artifactId>
-        <version>${samtools.htsjdk.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-cli</groupId>
-        <artifactId>commons-cli</artifactId>
-        <version>${commons.cli.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.opencsv</groupId>
-        <artifactId>opencsv</artifactId>
-        <version>${opencsv.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.samtools</groupId>
+            <artifactId>htsjdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.samtools</groupId>
-      <artifactId>htsjdk</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-    </dependency>
-  </dependencies>
+    <profiles>
+        <profile>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <id>prepare-agent</id>
+                            </execution>
+                            <execution>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <id>report</id>
+                            </execution>
+                        </executions>
+                        <groupId>org.jacoco</groupId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+            <id>coverage</id>
+        </profile>
+    </profiles>
 
-  <profiles>
-    <profile>
-      <build>
+    <build>
+        <finalName>vip-utils</finalName>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <compilerArgs>
+                            <arg>-Xlint</arg>
+                            <arg>-Xlint:-processing
+                            </arg><!-- disable: perfectly normal for annotations to not have a processor -->
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-          <plugin>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <id>prepare-agent</id>
-              </execution>
-              <execution>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-                <id>report</id>
-              </execution>
-            </executions>
-            <groupId>org.jacoco</groupId>
-            <version>${jacoco-maven-plugin.version}</version>
-          </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>target/generated-resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <!-- suppress Java 21 dynamic agent loading warning, since there is no suitable fix yet -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
+                </configuration>
+            </plugin>
         </plugins>
-      </build>
-      <id>coverage</id>
-    </profile>
-  </profiles>
-
-  <build>
-    <finalName>vip-utils</finalName>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <compilerArgs>
-              <arg>-Xlint</arg>
-              <arg>-Xlint:-processing</arg><!-- disable: perfectly normal for annotations to not have a processor -->
-            </compilerArgs>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>target/generated-resources</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <!-- suppress Java 21 dynamic agent loading warning, since there is no suitable fix yet -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    </build>
 </project>
