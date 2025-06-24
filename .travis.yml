@@ -9,15 +9,10 @@ branches:
   only:
   - main
   - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
-addons:
-  sonarcloud:
-    organization: molgenis
-    token:
-      secure: dfcBsT4GsJ9wHV6XZzZ2fxKTYcgz6KOyUXLcVjn8asmVF0XdJwWjyZQVbvWh1ecz69t3RMk3mM1qNSJcObk9NkajVVtjedigwYDIZIRItn6jwm30RybZhfkskghSPbq8vn6pOnZ40j8ktHGGb/HnVqx9/zEnC5s16Dtfj9twIvjtlO/I9ZRK0z0OsQkBV5YynCKKjQvohtjt9unUD4oQJqrOdj4d6FkR+reDkGOp1pDwit2aLFWuWtwIWpSP4aNJkkJFAUJHqyUj4UZt0Bf24i8CgtZzLQB5SuLKowNLT6xhtd8i/MKHYoZ8QComYRPm8UD8gNb5J8dc1zSDyUNPp2bIaofgKvlLVqZiLtN9hArpxp73n0iecBrKszsKwEb4UQ9CAZBGeCDTGAYfA1SlExeEhi/YdGiKPbUR+VYTp4OUk6gbvuaJnlPmq0BZks1iHlsyOcs1GGefLuaYrgHlvfLyosx9xduBdyyeFt4dbirdLmGY+JgDdXflfntzQEVlOgrrsTQKlDSOVBtBzufOsef/WDS22JTKCGkB7Hq+NjTsv7KhTlILGe/2WGMvAwi+MfwqyF/0RfV8TuT45WN1Lhd9j9OsJGP4xuhpt2/QKUBkY0zrztOrU84flw/hFkKfprpWcyrw2W6ugqgam33HuUUQIourr8eVPltwSfnF3lA=
 before_install:
 - cp travis.settings.xml $HOME/.m2/settings.xml
 script:
-- mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=molgenis_vip-utils
+- mvn clean install -Pcoverage
 before_deploy:
   # workaround for: https://travis-ci.community/t/deployments-are-failing-due-to-uri-dependency/14375
   - yes | gem update --system --force
