@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 import static org.molgenis.vcf.utils.metadata.FieldType.FORMAT;
@@ -29,15 +30,15 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         this.jsonMetadata = requireNonNull(jsonMetadata);
     }
 
-    public FieldMetadatas load(VCFHeader vcfHeader, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    public FieldMetadatas load(VCFHeader vcfHeader) {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, FieldMetadata> infoMetadata = new HashMap<>();
         Map<String, FieldMetadata> formatMetadata = new HashMap<>();
 
         try (InputStream inputStream = new FileInputStream(jsonMetadata)) {
             JsonFieldMetadatas jsonFieldMetadatas = mapper.readValue(inputStream, JsonFieldMetadatas.class);
-            vcfHeader.getInfoHeaderLines().forEach(line -> infoMetadata.put(line.getID(), mapInfoHeader(line, jsonFieldMetadatas, nestedAttributesMap)));
-            vcfHeader.getFormatHeaderLines().forEach(line -> formatMetadata.put(line.getID(), mapFormatHeader(line, jsonFieldMetadatas, nestedAttributesMap)));
+            vcfHeader.getInfoHeaderLines().forEach(line -> infoMetadata.put(line.getID(), mapInfoHeader(line, jsonFieldMetadatas)));
+            vcfHeader.getFormatHeaderLines().forEach(line -> formatMetadata.put(line.getID(), mapFormatHeader(line, jsonFieldMetadatas)));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -45,9 +46,9 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         return FieldMetadatas.builder().info(infoMetadata).format(formatMetadata).build();
     }
 
-    private FieldMetadata mapInfoHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private FieldMetadata mapInfoHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         if (jsonFieldMetadatas.getInfo().containsKey(line.getID())) {
-            return mapCustomInfoFieldMetadata(line, jsonFieldMetadatas, nestedAttributesMap);
+            return mapCustomInfoFieldMetadata(line, jsonFieldMetadatas);
         } else {
             ValueType type = mapVcfValueType(line.getType());
             ValueCount.Type numberType = mapVcfNumberType(line.getCountType());
@@ -56,9 +57,9 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         }
     }
 
-    private FieldMetadata mapFormatHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private FieldMetadata mapFormatHeader(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         if (jsonFieldMetadatas.getFormat().containsKey(line.getID())) {
-            return mapCustomFormatFieldMetadata(line, jsonFieldMetadatas, nestedAttributesMap);
+            return mapCustomFormatFieldMetadata(line, jsonFieldMetadatas);
         } else {
             ValueType type = mapVcfValueType(line.getType());
             ValueCount.Type numberType = mapVcfNumberType(line.getCountType());
@@ -71,42 +72,54 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         return line.getCountType() == VCFHeaderLineCount.INTEGER ? line.getCount() : null;
     }
 
-    private FieldMetadata mapCustomInfoFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private FieldMetadata mapCustomInfoFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         JsonFieldMetadata jsonFieldMetadata = jsonFieldMetadatas.getInfo().get(line.getID());
-        return mapCustomFieldMetadata(line, jsonFieldMetadatas, jsonFieldMetadata, nestedAttributesMap);
+        return mapCustomFieldMetadata(line, jsonFieldMetadatas, jsonFieldMetadata);
     }
 
-    private FieldMetadata mapCustomFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, JsonFieldMetadata jsonFieldMetadata, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private FieldMetadata mapCustomFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, JsonFieldMetadata jsonFieldMetadata) {
         ValueType type = jsonFieldMetadata.getType() != null ? jsonFieldMetadata.getType() : mapVcfValueType(line.getType());
         ValueCount.Type numberType = jsonFieldMetadata.getNumberType() != null ? mapNumberType(jsonFieldMetadata.getNumberType()) : mapVcfNumberType(line.getCountType());
         Integer numberCount = jsonFieldMetadata.getNumberCount() != null ? jsonFieldMetadata.getNumberCount() : getCount(line);
-        boolean required = jsonFieldMetadata.getRequired() != null ? jsonFieldMetadata.getRequired() : false;
+        boolean required = jsonFieldMetadata.getRequired() != null && jsonFieldMetadata.getRequired();
         Character separator = jsonFieldMetadata.getSeparator() != null ? jsonFieldMetadata.getSeparator() : null;
         Map<String, ValueDescription> categories = jsonFieldMetadata.getCategories() != null ? jsonFieldMetadata.getCategories() : null;
         String label = jsonFieldMetadata.getLabel() != null ? jsonFieldMetadata.getLabel() : line.getID();
         String description = jsonFieldMetadata.getDescription() != null ? jsonFieldMetadata.getDescription() : line.getDescription();
-        Map<String, NestedFieldMetadata> nestedFields = jsonFieldMetadata.getNestedFields() != null ? mapNestedFields(line, jsonFieldMetadatas, nestedAttributesMap) : null;
+        Map<String, NestedFieldMetadata> nestedFields = jsonFieldMetadata.getNestedFields() != null ? mapNestedFields(line, jsonFieldMetadatas) : null;
         ValueDescription nullValue = jsonFieldMetadata.getNullValue() != null ? jsonFieldMetadata.getNullValue() : null;
         return FieldMetadata.builder().label(line.getID()).description(description).type(type)
                 .numberType(numberType).numberCount(numberCount).categories(categories).separator(separator)
                 .label(label).nestedFields(nestedFields).nullValue(nullValue).required(required).build();
     }
 
-    private FieldMetadata mapCustomFormatFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private FieldMetadata mapCustomFormatFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         JsonFieldMetadata jsonFieldMetadata = jsonFieldMetadatas.getFormat().get(line.getID());
-        return mapCustomFieldMetadata(line, jsonFieldMetadatas, jsonFieldMetadata, nestedAttributesMap);
+        return mapCustomFieldMetadata(line, jsonFieldMetadatas, jsonFieldMetadata);
     }
 
-    private Map<String, NestedFieldMetadata> mapNestedFields(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, Map<FieldIdentifier, NestedAttributes> nestedAttributesMap) {
+    private Map<String, NestedFieldMetadata> mapNestedFields(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {
         Map<String, NestedFieldMetadata> nestedFields = new HashMap<>();
         FieldType type = line instanceof VCFInfoHeaderLine ? INFO : FORMAT;
         FieldIdentifier identifier = FieldIdentifier.builder().name(line.getID()).type(type).build();
-        if (!nestedAttributesMap.containsKey(identifier)) {
-            throw new MissingPrefixException(identifier);
+        JsonFieldMetadata parent = type == INFO ? jsonFieldMetadatas.getInfo().get(identifier.getName()) : jsonFieldMetadatas.getFormat().get(identifier.getName());
+        if (parent != null && parent.getNestedAttributes() != null) {
+            mapConfigNestedField(line, jsonFieldMetadatas, parent, nestedFields);
         }
-        NestedAttributes nestedAttributes = nestedAttributesMap.get(identifier);
+        else{
+            nestedFields = getNestedFields(jsonFieldMetadatas, line.getID(), line instanceof VCFInfoHeaderLine ? INFO : FORMAT).entrySet().stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            entry -> entry.getValue().toFieldNestedFieldMetadata()
+                    ));
+        }
+        return nestedFields;
+    }
+
+    private static void mapConfigNestedField(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, JsonFieldMetadata parent, Map<String, NestedFieldMetadata> nestedFields) {
+        NestedAttributes nestedAttributes = parent.getNestedAttributes();
         String description = line.getDescription();
-        String escapedSeparator = Pattern.quote(nestedAttributes.getSeperator());
+        String escapedSeparator = Pattern.quote(nestedAttributes.getSeparator());
         String[] infoIds = description.substring(nestedAttributes.getPrefix().length()).split(escapedSeparator, -1);
         int index = 0;
         for (String id : infoIds) {
@@ -119,7 +132,7 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
                         .numberType(mapNumberType(jsonMeta.getNumberType())).numberCount(jsonMeta.getNumberCount())
                         .categories(jsonMeta.getCategories()).separator(jsonMeta.getSeparator())
                         .nullValue(jsonMeta.getNullValue())
-                        .required(jsonMeta.getRequired() != null ? jsonMeta.getRequired() : false).build();
+                        .required(jsonMeta.getRequired() != null && jsonMeta.getRequired()).build();
             } else {
                 //No metadata available, assume non-required single string value
                 nestedFieldMetadataBuilder.type(ValueType.STRING)
@@ -129,7 +142,6 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
             nestedFields.put(id, nestedFieldMetadataBuilder.build());
             index++;
         }
-        return nestedFields;
     }
 
     private static NestedJsonFieldMetadata getNestedMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, String id) {
@@ -146,6 +158,16 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         return jsonMeta;
     }
 
+    private static Map<String, NestedJsonFieldMetadata> getNestedFields(JsonFieldMetadatas jsonFieldMetadatas, String id, FieldType type) {
+        Map<String, NestedJsonFieldMetadata> nestedJsonMeta;
+        if (type == INFO) {
+            nestedJsonMeta = jsonFieldMetadatas.getInfo().get(id).getNestedFields();
+        } else {
+            nestedJsonMeta = jsonFieldMetadatas.getFormat().get(id).getNestedFields();
+        }
+        return nestedJsonMeta;
+    }
+
     private ValueType mapVcfValueType(VCFHeaderLineType type) {
         return switch (type) {
             case Integer -> ValueType.INTEGER;
@@ -158,7 +180,7 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         };
     }
 
-    private ValueCount.Type mapNumberType(NumberType numberType) {
+    public static ValueCount.Type mapNumberType(NumberType numberType) {
         return switch (numberType) {
             case NumberType.NUMBER -> FIXED;
             case NumberType.PER_ALT -> A;

@@ -1,12 +1,11 @@
 package org.molgenis.vcf.utils.metadata;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.*;
 
-@Value
-@Builder
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode
 public class NestedAttributes {
     @NonNull String prefix;
-    @NonNull String seperator;
+    @NonNull String separator;
 }

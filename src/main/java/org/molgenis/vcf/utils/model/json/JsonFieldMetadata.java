@@ -4,6 +4,7 @@ import java.util.Map;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.molgenis.vcf.utils.metadata.NestedAttributes;
 import org.molgenis.vcf.utils.metadata.ValueType;
 import org.molgenis.vcf.utils.model.NumberType;
 import org.molgenis.vcf.utils.model.ValueDescription;
@@ -23,4 +24,5 @@ public class JsonFieldMetadata {
   String description;
   Map<String, NestedJsonFieldMetadata> nestedFields;
   ValueDescription nullValue;
+  NestedAttributes nestedAttributes;
 }

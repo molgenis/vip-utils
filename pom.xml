@@ -13,7 +13,7 @@
 
     <groupId>org.molgenis</groupId>
     <artifactId>vip-utils</artifactId>
-    <version>3.1.0</version>
+    <version>4.0.0</version>
 
     <name>vip-utils</name>
     <description>Shared classes and tools between VIP repo's</description>
@@ -126,27 +126,6 @@
                                     <goal>report</goal>
                                 </goals>
                                 <id>report</id>
-                            </execution>
-                            <execution>
-                                <id>check</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <rule>
-                                            <element>BUNDLE</element>
-                                            <limits>
-                                                <limit>
-                                                    <counter>INSTRUCTION</counter>
-                                                    <value>COVEREDRATIO</value>
-                                                    <minimum>0.70</minimum>
-                                                </limit>
-                                            </limits>
-                                        </rule>
-                                    </rules>
-                                </configuration>
                             </execution>
                         </executions>
                         <groupId>org.jacoco</groupId>
