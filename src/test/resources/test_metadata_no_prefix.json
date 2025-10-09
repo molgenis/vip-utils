@@ -1,0 +1,69 @@
+{
+  "info": {
+    "TEST": {
+      "label": "TEST INFO",
+      "description": "TEST INFO desc",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "FLAG"
+    },
+    "NOT": {
+      "label": "TEST",
+      "description": "TEST",
+      "numberType": "NUMBER",
+      "numberCount": 1,
+      "type": "STRING"
+    },
+    "CSQ": {
+      "label": "VEP",
+      "nestedFields": {
+        "VIPP": {
+          "label": "VIP path",
+          "description": "VIP decision tree path",
+          "numberType": "OTHER",
+          "separator": "&",
+          "type": "STRING",
+          "index": 0
+        },
+        "CAPICE_CL": {
+          "label": "CAPICE_CL",
+          "description": "CAPICE_CL",
+          "numberType": "NUMBER",
+          "numberCount": 1,
+          "type": "CATEGORICAL",
+          "index": 1,
+          "categories": {
+            "B": {
+              "label": "B"
+            },
+            "LB": {
+              "label": "LB"
+            },
+            "VUS": {
+              "label": "VUS"
+            },
+            "LP": {
+              "label": "LP"
+            },
+            "P": {
+              "label": "P",
+              "description": "Description P"
+            }
+          }
+        },
+        "TEST": {
+          "label": "TEST label",
+          "description": "TEST desc",
+          "numberType": "PER_ALT_AND_REF",
+          "type": "INTEGER",
+          "index": 2
+        }
+      },
+      "nestedAttributes": {
+        "separator": "|"
+      }
+    }
+  },
+  "format": {
+  }
+}

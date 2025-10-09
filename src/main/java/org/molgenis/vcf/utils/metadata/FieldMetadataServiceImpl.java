@@ -103,10 +103,10 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         FieldType type = line instanceof VCFInfoHeaderLine ? INFO : FORMAT;
         FieldIdentifier identifier = FieldIdentifier.builder().name(line.getID()).type(type).build();
         JsonFieldMetadata parent = type == INFO ? jsonFieldMetadatas.getInfo().get(identifier.getName()) : jsonFieldMetadatas.getFormat().get(identifier.getName());
-        if (parent != null && parent.getNestedAttributes() != null) {
+        if (parent != null) {
+            validateParent(parent, identifier);
             mapConfigNestedField(line, jsonFieldMetadatas, parent, nestedFields);
-        }
-        else{
+        } else {
             nestedFields = getNestedFields(jsonFieldMetadatas, line.getID(), line instanceof VCFInfoHeaderLine ? INFO : FORMAT).entrySet().stream()
                     .collect(Collectors.toMap(
                             Map.Entry::getKey,
@@ -116,31 +116,57 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         return nestedFields;
     }
 
+    private static void validateParent(JsonFieldMetadata parent, FieldIdentifier identifier) {
+        if(parent.getNestedAttributes() == null){
+            throw new MissingNestedAttributesException(identifier.getName());
+        }
+        else if(parent.getNestedAttributes().getSeparator() == null){
+            throw new MissingSeparatorException(identifier.getName());
+        }
+    }
+
     private static void mapConfigNestedField(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas, JsonFieldMetadata parent, Map<String, NestedFieldMetadata> nestedFields) {
         NestedAttributes nestedAttributes = parent.getNestedAttributes();
-        String description = line.getDescription();
         String escapedSeparator = Pattern.quote(nestedAttributes.getSeparator());
-        String[] infoIds = description.substring(nestedAttributes.getPrefix().length()).split(escapedSeparator, -1);
-        int index = 0;
-        for (String id : infoIds) {
-            NestedFieldMetadata.NestedFieldMetadataBuilder<?, ?> nestedFieldMetadataBuilder = NestedFieldMetadata
-                    .builder().label(id).index(index);
-            NestedJsonFieldMetadata jsonMeta = getNestedMetadata(line, jsonFieldMetadatas, id);
-            if (jsonMeta != null) {
-                nestedFieldMetadataBuilder.label(jsonMeta.getLabel()).description(jsonMeta
+        if (nestedAttributes.getPrefix() != null) {
+            String description = line.getDescription();
+            String[] infoIds = description.substring(nestedAttributes.getPrefix().length()).split(escapedSeparator, -1);
+            int index = 0;
+            for (String id : infoIds) {
+                NestedFieldMetadata.NestedFieldMetadataBuilder<?, ?> nestedFieldMetadataBuilder = NestedFieldMetadata
+                        .builder().label(id).index(index);
+                NestedJsonFieldMetadata jsonMeta = getNestedMetadata(line, jsonFieldMetadatas, id);
+                if (jsonMeta != null) {
+                    nestedFieldMetadataBuilder.label(jsonMeta.getLabel()).description(jsonMeta
+                                    .getDescription()).type(jsonMeta.getType())
+                            .numberType(mapNumberType(jsonMeta.getNumberType())).numberCount(jsonMeta.getNumberCount())
+                            .categories(jsonMeta.getCategories()).separator(jsonMeta.getSeparator())
+                            .nullValue(jsonMeta.getNullValue())
+                            .required(jsonMeta.getRequired() != null && jsonMeta.getRequired()).build();
+                } else {
+                    //No metadata available, assume non-required single string value
+                    nestedFieldMetadataBuilder.type(ValueType.STRING)
+                            .numberType(FIXED).numberCount(1)
+                            .required(false).build();
+                }
+                nestedFields.put(id, nestedFieldMetadataBuilder.build());
+                index++;
+            }
+        } else {
+            for (Map.Entry<String, NestedJsonFieldMetadata> entry : parent.getNestedFields().entrySet()) {
+                NestedJsonFieldMetadata jsonMeta = entry.getValue();
+                if(jsonMeta.getIndex() == -1){
+                    throw new NestedMetadataWithoutIndexException(entry.getKey());
+                }
+                NestedFieldMetadata.NestedFieldMetadataBuilder<?, ?> nestedFieldMetadataBuilder = NestedFieldMetadata.builder()
+                        .index(jsonMeta.getIndex()).label(jsonMeta.getLabel()).description(jsonMeta
                                 .getDescription()).type(jsonMeta.getType())
                         .numberType(mapNumberType(jsonMeta.getNumberType())).numberCount(jsonMeta.getNumberCount())
                         .categories(jsonMeta.getCategories()).separator(jsonMeta.getSeparator())
                         .nullValue(jsonMeta.getNullValue())
-                        .required(jsonMeta.getRequired() != null && jsonMeta.getRequired()).build();
-            } else {
-                //No metadata available, assume non-required single string value
-                nestedFieldMetadataBuilder.type(ValueType.STRING)
-                        .numberType(FIXED).numberCount(1)
-                        .required(false).build();
+                        .required(jsonMeta.getRequired() != null && jsonMeta.getRequired());
+                nestedFields.put(entry.getKey(), nestedFieldMetadataBuilder.build());
             }
-            nestedFields.put(id, nestedFieldMetadataBuilder.build());
-            index++;
         }
     }
 

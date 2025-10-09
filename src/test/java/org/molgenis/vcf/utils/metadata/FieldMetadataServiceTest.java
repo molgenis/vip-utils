@@ -72,4 +72,46 @@ class FieldMetadataServiceTest {
         FieldMetadatas actual = fieldMetadataService.load(vcfHeader);
         assertEquals(expected.getFormat(), actual.getFormat());
     }
+
+    @Test
+    void loadNoPrefix() {
+        VCFHeader vcfHeader = mock(VCFHeader.class);
+        VCFInfoHeaderLine csqInfoHeaderLine = mock(VCFInfoHeaderLine.class);
+        when(csqInfoHeaderLine.getID()).thenReturn("CSQ");
+        when(csqInfoHeaderLine.getDescription()).thenReturn("TEST:VIPP|TEST|TEST2");
+        when(csqInfoHeaderLine.getType()).thenReturn(VCFHeaderLineType.String);
+        when(csqInfoHeaderLine.getCountType()).thenReturn(VCFHeaderLineCount.UNBOUNDED);
+
+        VCFInfoHeaderLine testinfoHeaderLine = mock(VCFInfoHeaderLine.class);
+        when(testinfoHeaderLine.getID()).thenReturn("TEST");
+
+        VCFInfoHeaderLine test3infoHeaderLine = mock(VCFInfoHeaderLine.class);
+        when(test3infoHeaderLine.getID()).thenReturn("TEST3");
+        when(test3infoHeaderLine.getType()).thenReturn(VCFHeaderLineType.Float);
+        when(test3infoHeaderLine.getCountType()).thenReturn(VCFHeaderLineCount.R);
+
+        VCFFormatHeaderLine formatHeaderLine1 = mock(VCFFormatHeaderLine.class);
+        when(formatHeaderLine1.getID()).thenReturn("FORMAT1");
+        when(formatHeaderLine1.getType()).thenReturn(VCFHeaderLineType.Integer);
+        when(formatHeaderLine1.getCountType()).thenReturn(VCFHeaderLineCount.INTEGER);
+        when(formatHeaderLine1.getCount()).thenReturn(1);
+
+        when(vcfHeader.getInfoHeaderLines()).thenReturn(Set.of(csqInfoHeaderLine, testinfoHeaderLine, test3infoHeaderLine));
+        when(vcfHeader.getFormatHeaderLines()).thenReturn(Set.of(formatHeaderLine1));
+
+        NestedFieldMetadata nestedVippMeta = NestedFieldMetadata.builder().index(0).label("VIP path").description("VIP decision tree path").separator('&').type(ValueType.STRING).numberType(ValueCount.Type.VARIABLE).build();
+        NestedFieldMetadata nestedTestMeta = NestedFieldMetadata.builder().index(1).label("TEST label").description("TEST desc").type(ValueType.INTEGER).numberType(ValueCount.Type.R).build();
+        NestedFieldMetadata nestedTest2Meta = NestedFieldMetadata.builder().index(2).label("TEST2").type(ValueType.STRING).numberType(ValueCount.Type.FIXED).numberCount(1).build();
+        FieldMetadata csqMeta = FieldMetadata.builder().label("VEP").description("TEST:VIPP|TEST|TEST2").numberType(ValueCount.Type.VARIABLE).type(ValueType.STRING).numberType(ValueCount.Type.VARIABLE).nestedFields(Map.of("VIPP", nestedVippMeta, "TEST", nestedTestMeta, "TEST2", nestedTest2Meta)).build();
+        FieldMetadata testMeta = FieldMetadata.builder().label("TEST INFO").description("TEST INFO desc").type(ValueType.FLAG).numberType(ValueCount.Type.FIXED).numberCount(1).build();
+        FieldMetadata test3Meta = FieldMetadata.builder().label("TEST3").type(ValueType.FLOAT).numberType(ValueCount.Type.R).build();
+        FieldMetadata format1Meta = FieldMetadata.builder().label("FORMAT1").type(ValueType.INTEGER).numberType(ValueCount.Type.FIXED).numberCount(1).build();
+        FieldMetadata format2Meta = FieldMetadata.builder().label("FORMAT2").type(ValueType.FLOAT).numberType(ValueCount.Type.A).build();
+
+        FieldMetadatas expected = FieldMetadatas.builder().info(Map.of("CSQ", csqMeta, "TEST", testMeta, "TEST3", test3Meta)).format(Map.of("FORMAT1", format1Meta)).build();
+        Path path = Paths.get("src", "test", "resources", "test_metadata_no_prefix.json");
+        fieldMetadataService = new FieldMetadataServiceImpl(path.toFile());
+        FieldMetadatas actual = fieldMetadataService.load(vcfHeader);
+        assertEquals(expected.getFormat(), actual.getFormat());
+    }
 }

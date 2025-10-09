@@ -6,6 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class NestedAttributes {
-    @NonNull String prefix;
+    String prefix;
     @NonNull String separator;
 }
