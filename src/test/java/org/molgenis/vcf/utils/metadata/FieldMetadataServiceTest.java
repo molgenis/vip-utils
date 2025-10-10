@@ -58,19 +58,19 @@ class FieldMetadataServiceTest {
         NestedFieldMetadata nestedVippMeta = NestedFieldMetadata.builder().index(0).label("VIP path").description("VIP decision tree path").separator('&').type(ValueType.STRING).numberType(ValueCount.Type.VARIABLE).build();
         NestedFieldMetadata nestedTestMeta = NestedFieldMetadata.builder().index(1).label("TEST label").description("TEST desc").type(ValueType.INTEGER).numberType(ValueCount.Type.R).build();
         NestedFieldMetadata nestedTest2Meta = NestedFieldMetadata.builder().index(2).label("TEST2").type(ValueType.STRING).numberType(ValueCount.Type.FIXED).numberCount(1).build();
-        FieldMetadata csqMeta = FieldMetadata.builder().label("VEP").description("TEST:VIPP|TEST|TEST2").numberType(ValueCount.Type.VARIABLE).type(ValueType.STRING).numberType(ValueCount.Type.VARIABLE).nestedFields(Map.of("VIPP", nestedVippMeta, "TEST", nestedTestMeta, "TEST2", nestedTest2Meta)).build();
+        FieldMetadata csqMeta = FieldMetadata.builder().nestedAttributes(new NestedAttributes("TEST:", "|")).label("VEP").description("TEST:VIPP|TEST|TEST2").numberType(ValueCount.Type.VARIABLE).type(ValueType.STRING).numberType(ValueCount.Type.VARIABLE).nestedFields(Map.of("VIPP", nestedVippMeta, "TEST", nestedTestMeta, "TEST2", nestedTest2Meta)).build();
         FieldMetadata testMeta = FieldMetadata.builder().label("TEST INFO").description("TEST INFO desc").type(ValueType.FLAG).numberType(ValueCount.Type.FIXED).numberCount(1).build();
         FieldMetadata test3Meta = FieldMetadata.builder().label("TEST3").type(ValueType.FLOAT).numberType(ValueCount.Type.R).build();
         FieldMetadata format1Meta = FieldMetadata.builder().label("TEST").description("TEST").type(ValueType.INTEGER).numberType(ValueCount.Type.FIXED).numberCount(1).build();
         FieldMetadata format2Meta = FieldMetadata.builder().label("FORMAT2").type(ValueType.FLOAT).numberType(ValueCount.Type.A).build();
         NestedFieldMetadata formatNestedTest = NestedFieldMetadata.builder().label("NESTED label").description("NESTED desc").type(ValueType.INTEGER).numberType(ValueCount.Type.R).index(0).build();
-        FieldMetadata formatNestedMeta = FieldMetadata.builder().label("NESTED_FORMAT").description("NESTED_FORMAT:TEST").type(ValueType.STRING).numberType(ValueCount.Type.R).nestedFields(Map.of("TEST", formatNestedTest)).build();
+        FieldMetadata formatNestedMeta = FieldMetadata.builder().label("NESTED_FORMAT").description("NESTED_FORMAT:TEST").type(ValueType.STRING).numberType(ValueCount.Type.R).nestedFields(Map.of("TEST", formatNestedTest)).nestedAttributes(new NestedAttributes("NESTED_FORMAT:", "|")).build();
 
         FieldMetadatas expected = FieldMetadatas.builder().info(Map.of("CSQ", csqMeta, "TEST", testMeta, "TEST3", test3Meta)).format(Map.of("FORMAT1", format1Meta, "FORMAT2", format2Meta, "NESTED_FORMAT", formatNestedMeta)).build();
         Path path = Paths.get("src", "test", "resources", "test_metadata.json");
         fieldMetadataService = new FieldMetadataServiceImpl(path.toFile());
         FieldMetadatas actual = fieldMetadataService.load(vcfHeader);
-        assertEquals(expected.getFormat(), actual.getFormat());
+        assertEquals(expected, actual);
     }
 
     @Test

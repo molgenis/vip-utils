@@ -83,6 +83,7 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         Integer numberCount = jsonFieldMetadata.getNumberCount() != null ? jsonFieldMetadata.getNumberCount() : getCount(line);
         boolean required = jsonFieldMetadata.getRequired() != null && jsonFieldMetadata.getRequired();
         Character separator = jsonFieldMetadata.getSeparator() != null ? jsonFieldMetadata.getSeparator() : null;
+        NestedAttributes nestedAttributes = jsonFieldMetadata.getNestedAttributes() != null ? jsonFieldMetadata.getNestedAttributes() : null;
         Map<String, ValueDescription> categories = jsonFieldMetadata.getCategories() != null ? jsonFieldMetadata.getCategories() : null;
         String label = jsonFieldMetadata.getLabel() != null ? jsonFieldMetadata.getLabel() : line.getID();
         String description = jsonFieldMetadata.getDescription() != null ? jsonFieldMetadata.getDescription() : line.getDescription();
@@ -90,7 +91,7 @@ public class FieldMetadataServiceImpl implements FieldMetadataService {
         ValueDescription nullValue = jsonFieldMetadata.getNullValue() != null ? jsonFieldMetadata.getNullValue() : null;
         return FieldMetadata.builder().label(line.getID()).description(description).type(type)
                 .numberType(numberType).numberCount(numberCount).categories(categories).separator(separator)
-                .label(label).nestedFields(nestedFields).nullValue(nullValue).required(required).build();
+                .label(label).nestedFields(nestedFields).nestedAttributes(nestedAttributes).nullValue(nullValue).required(required).build();
     }
 
     private FieldMetadata mapCustomFormatFieldMetadata(VCFCompoundHeaderLine line, JsonFieldMetadatas jsonFieldMetadatas) {

@@ -2,6 +2,7 @@ package org.molgenis.vcf.utils.model.metadata;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.molgenis.vcf.utils.metadata.NestedAttributes;
 import org.molgenis.vcf.utils.metadata.ValueCount;
 import org.molgenis.vcf.utils.metadata.ValueType;
 import org.molgenis.vcf.utils.model.ValueDescription;
@@ -24,5 +25,6 @@ public class FieldMetadata {
   @NonNull String label;
   String description;
   Map<String, NestedFieldMetadata> nestedFields;
+  NestedAttributes nestedAttributes;
   ValueDescription nullValue;
 }

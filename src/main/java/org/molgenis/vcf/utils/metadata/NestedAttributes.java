@@ -4,6 +4,7 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class NestedAttributes {
     String prefix;
