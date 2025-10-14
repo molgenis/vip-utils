@@ -22,7 +22,8 @@
           "description": "VIP decision tree path",
           "numberType": "OTHER",
           "separator": "&",
-          "type": "STRING"
+          "type": "STRING",
+          "index": 0
         },
         "CAPICE_CL": {
           "label": "CAPICE_CL",
@@ -30,6 +31,7 @@
           "numberType": "NUMBER",
           "numberCount": 1,
           "type": "CATEGORICAL",
+          "index": 1,
           "categories": {
             "B": {
               "label": "B"
@@ -53,36 +55,15 @@
           "label": "TEST label",
           "description": "TEST desc",
           "numberType": "PER_ALT_AND_REF",
-          "type": "INTEGER"
+          "type": "INTEGER",
+          "index": 2
         }
       },
       "nestedAttributes": {
-        "prefix": "TEST:",
         "separator": "|"
       }
     }
   },
   "format": {
-    "FORMAT1": {
-      "label": "TEST",
-      "description": "TEST",
-      "numberType": "NUMBER",
-      "numberCount": 1,
-      "type": "INTEGER"
-    },
-    "NESTED_FORMAT": {
-      "nestedFields": {
-        "TEST": {
-          "label": "NESTED label",
-          "description": "NESTED desc",
-          "numberType": "PER_ALT_AND_REF",
-          "type": "INTEGER"
-        }
-      },
-      "nestedAttributes": {
-        "prefix": "NESTED_FORMAT:",
-        "separator": "|"
-      }
-    }
   }
 }
