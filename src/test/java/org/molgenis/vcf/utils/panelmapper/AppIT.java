@@ -12,8 +12,7 @@ import org.springframework.util.ResourceUtils;
 
 class AppIT {
 
-  @TempDir
-  Path sharedTempDir;
+  @TempDir Path sharedTempDir;
 
   @Test
   void test() throws IOException {
@@ -31,6 +30,7 @@ class AppIT {
 
     assertEquals(expected, output);
   }
+
   @Test
   void testNoOutputParam() throws IOException {
     File inputFile = ResourceUtils.getFile("classpath:panel.txt");
@@ -42,10 +42,8 @@ class AppIT {
 
     Path expectedPath = ResourceUtils.getFile("classpath:expected.tsv").toPath();
     String expected = Files.readString(expectedPath).replaceAll("\\R", "\n");
-    Path outputPath = Path.of(inputFile.getPath()
-            .replace(".txt", "_mapped.tsv"));
+    Path outputPath = Path.of(inputFile.getPath().replace(".txt", "_mapped.tsv"));
     String output = Files.readString(outputPath).replaceAll("\\R", "\n");
     assertEquals(expected, output);
   }
-
 }

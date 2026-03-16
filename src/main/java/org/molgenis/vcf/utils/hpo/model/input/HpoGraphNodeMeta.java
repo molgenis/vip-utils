@@ -10,5 +10,5 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HpoGraphNodeMeta {
-    HpoGraphNodeMetaDefinition definition;
+  HpoGraphNodeMetaDefinition definition;
 }

@@ -11,23 +11,30 @@ import java.util.Set;
 
 public class HeaderUtils {
 
-  private HeaderUtils(){}
+  private HeaderUtils() {}
 
   public static Collection<VCFFormatHeaderLine> fixVcfFormatHeaderLines(VCFHeader vcfHeader) {
-    Collection<VCFFormatHeaderLine> formatHeaderLines = new LinkedHashSet<>(vcfHeader.getFormatHeaderLines());
-    for(VCFFormatHeaderLine vcfHeaderLine : vcfHeader.getFormatHeaderLines()){
+    Collection<VCFFormatHeaderLine> formatHeaderLines =
+        new LinkedHashSet<>(vcfHeader.getFormatHeaderLines());
+    for (VCFFormatHeaderLine vcfHeaderLine : vcfHeader.getFormatHeaderLines()) {
       String description = vcfHeaderLine.getDescription();
-      if(description.startsWith("\"")){
+      if (description.startsWith("\"")) {
         formatHeaderLines.remove(vcfHeaderLine);
         description = "\\" + description;
-        if(vcfHeaderLine.getCountType() == VCFHeaderLineCount.INTEGER) {
-          formatHeaderLines.add(new VCFFormatHeaderLine(vcfHeaderLine.getID(), vcfHeaderLine.getCount(),
-              vcfHeaderLine.getType(),
-              description));
-        }else{
-          formatHeaderLines.add(new VCFFormatHeaderLine(vcfHeaderLine.getID(), vcfHeaderLine.getCountType(),
-              vcfHeaderLine.getType(),
-              description));
+        if (vcfHeaderLine.getCountType() == VCFHeaderLineCount.INTEGER) {
+          formatHeaderLines.add(
+              new VCFFormatHeaderLine(
+                  vcfHeaderLine.getID(),
+                  vcfHeaderLine.getCount(),
+                  vcfHeaderLine.getType(),
+                  description));
+        } else {
+          formatHeaderLines.add(
+              new VCFFormatHeaderLine(
+                  vcfHeaderLine.getID(),
+                  vcfHeaderLine.getCountType(),
+                  vcfHeaderLine.getType(),
+                  description));
         }
       }
     }
@@ -36,19 +43,29 @@ public class HeaderUtils {
 
   public static Set<VCFInfoHeaderLine> fixVcfInfoHeaderLines(VCFHeader vcfHeader) {
     Set<VCFInfoHeaderLine> infoHeaderLines = new LinkedHashSet<>(vcfHeader.getInfoHeaderLines());
-    for(VCFInfoHeaderLine vcfHeaderLine : vcfHeader.getInfoHeaderLines()){
+    for (VCFInfoHeaderLine vcfHeaderLine : vcfHeader.getInfoHeaderLines()) {
       String description = vcfHeaderLine.getDescription();
-      if(description.startsWith("\"")){
+      if (description.startsWith("\"")) {
         infoHeaderLines.remove(vcfHeaderLine);
         description = "\\" + description;
-        if(vcfHeaderLine.getCountType() == VCFHeaderLineCount.INTEGER) {
-          infoHeaderLines.add(new VCFInfoHeaderLine(vcfHeaderLine.getID(), vcfHeaderLine.getCount(),
-              vcfHeaderLine.getType(),
-              description, vcfHeaderLine.getSource(), vcfHeaderLine.getVersion()));
-        }else{
-          infoHeaderLines.add(new VCFInfoHeaderLine(vcfHeaderLine.getID(), vcfHeaderLine.getCountType(),
-              vcfHeaderLine.getType(),
-              description, vcfHeaderLine.getSource(), vcfHeaderLine.getVersion()));
+        if (vcfHeaderLine.getCountType() == VCFHeaderLineCount.INTEGER) {
+          infoHeaderLines.add(
+              new VCFInfoHeaderLine(
+                  vcfHeaderLine.getID(),
+                  vcfHeaderLine.getCount(),
+                  vcfHeaderLine.getType(),
+                  description,
+                  vcfHeaderLine.getSource(),
+                  vcfHeaderLine.getVersion()));
+        } else {
+          infoHeaderLines.add(
+              new VCFInfoHeaderLine(
+                  vcfHeaderLine.getID(),
+                  vcfHeaderLine.getCountType(),
+                  vcfHeaderLine.getType(),
+                  description,
+                  vcfHeaderLine.getSource(),
+                  vcfHeaderLine.getVersion()));
         }
       }
     }
@@ -56,16 +73,14 @@ public class HeaderUtils {
   }
 
   public static Collection<VCFFilterHeaderLine> fixVcfFilterHeaderLines(VCFHeader vcfHeader) {
-    Collection<VCFFilterHeaderLine> filterHeaderLines = new LinkedHashSet<>(
-        vcfHeader.getFilterLines());
+    Collection<VCFFilterHeaderLine> filterHeaderLines =
+        new LinkedHashSet<>(vcfHeader.getFilterLines());
     for (VCFFilterHeaderLine vcfHeaderLine : vcfHeader.getFilterLines()) {
       String description = vcfHeaderLine.getDescription();
       if (description.startsWith("\"")) {
         filterHeaderLines.remove(vcfHeaderLine);
         description = "\\" + description;
-        filterHeaderLines.add(
-            new VCFFilterHeaderLine(vcfHeaderLine.getID(),
-                description));
+        filterHeaderLines.add(new VCFFilterHeaderLine(vcfHeaderLine.getID(), description));
       }
     }
     return filterHeaderLines;

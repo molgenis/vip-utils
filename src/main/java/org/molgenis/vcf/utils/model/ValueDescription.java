@@ -7,6 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 public class ValueDescription {
-    @NonNull String label;
-    String description;
+  String label;
+  String description;
 }

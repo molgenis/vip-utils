@@ -1,30 +1,31 @@
 package org.molgenis.vcf.utils.model.metadata;
 
-import lombok.*;
+import java.util.Map;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.jspecify.annotations.Nullable;
 import org.molgenis.vcf.utils.metadata.NestedAttributes;
 import org.molgenis.vcf.utils.metadata.ValueCount;
 import org.molgenis.vcf.utils.metadata.ValueType;
 import org.molgenis.vcf.utils.model.ValueDescription;
 
-import java.util.Map;
-
-@Data
+@Getter
 @SuperBuilder
-@NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class FieldMetadata {
-  @NonNull
   ValueType type;
-  @NonNull
   ValueCount.Type numberType;
-  Integer numberCount;
+  @Nullable Integer numberCount;
   @Builder.Default boolean required = false;
-  Character separator;
-  Map<String, ValueDescription> categories;
-  @NonNull String label;
-  String description;
-  Map<String, NestedFieldMetadata> nestedFields;
-  NestedAttributes nestedAttributes;
-  ValueDescription nullValue;
+  @Nullable Character separator;
+  @Nullable Map<String, ValueDescription> categories;
+  String label;
+  @Nullable String description;
+  @Nullable Map<String, NestedFieldMetadata> nestedFields;
+  @Nullable NestedAttributes nestedAttributes;
+  @Nullable ValueDescription nullValue;
 }

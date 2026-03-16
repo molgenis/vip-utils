@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Pedigree parser (see http://zzz.bwh.harvard.edu/plink/data.shtml#ped) with fixed coding scheme
@@ -40,13 +41,16 @@ public class PedReader implements AutoCloseable {
   private final PedIndividualParser pedIndividualParser;
 
   public PedReader(Reader reader) {
-    this.bufferedReader = reader instanceof BufferedReader aBufferedReader ? aBufferedReader : new BufferedReader(reader);
+    this.bufferedReader =
+        reader instanceof BufferedReader aBufferedReader
+            ? aBufferedReader
+            : new BufferedReader(reader);
     this.pedIndividualParser = new PedIndividualParser();
   }
 
   public Iterator<PedIndividual> iterator() {
     return new Iterator<>() {
-      PedIndividual nextPedIndividual = null;
+      @Nullable PedIndividual nextPedIndividual = null;
 
       @Override
       public boolean hasNext() {
@@ -60,6 +64,7 @@ public class PedReader implements AutoCloseable {
         return nextPedIndividual != null;
       }
 
+      @SuppressWarnings("NullAway")
       @Override
       public PedIndividual next() {
         if (!hasNext()) {

@@ -1,9 +1,7 @@
 package org.molgenis.vcf.utils;
 
-import org.junit.jupiter.api.Test;
-import org.molgenis.vcf.utils.PedIndividual.AffectionStatus;
-import org.molgenis.vcf.utils.PedIndividual.Sex;
-import org.molgenis.vcf.utils.sample.UnsupportedPedException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,73 +9,74 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+import org.molgenis.vcf.utils.PedIndividual.AffectionStatus;
+import org.molgenis.vcf.utils.PedIndividual.Sex;
+import org.molgenis.vcf.utils.sample.UnsupportedPedException;
 
 class PedReaderTest {
 
-    @Test
-    void iterator() throws IOException {
-        String ped = "";
-        ped += "# my comment\n";
-        ped += "FAM001  1  2 3  0  2\n";
-        ped += "FAM001  2  0 0  1  1\n";
-        ped += "# my individual comment\n";
-        ped += "FAM001  3  0 0  2  0\n";
+  @Test
+  void iterator() throws IOException {
+    String ped = "";
+    ped += "# my comment\n";
+    ped += "FAM001  1  2 3  0  2\n";
+    ped += "FAM001  2  0 0  1  1\n";
+    ped += "# my individual comment\n";
+    ped += "FAM001  3  0 0  2  0\n";
 
-        try (PedReader pedReader = new PedReader(new StringReader(ped))) {
-            List<PedIndividual> pedIndividuals = new ArrayList<>();
-            pedReader.iterator().forEachRemaining(pedIndividuals::add);
+    try (PedReader pedReader = new PedReader(new StringReader(ped))) {
+      List<PedIndividual> pedIndividuals = new ArrayList<>();
+      pedReader.iterator().forEachRemaining(pedIndividuals::add);
 
-            String familyId = "FAM001";
-            List<PedIndividual> expectedPedIndividuals =
-                    List.of(
-                            new PedIndividual(familyId, "1", "2", "3", Sex.UNKNOWN, AffectionStatus.AFFECTED),
-                            new PedIndividual(familyId, "2", "0", "0", Sex.MALE, AffectionStatus.UNAFFECTED),
-                            new PedIndividual(familyId, "3", "0", "0", Sex.FEMALE, AffectionStatus.UNKNOWN));
-            assertEquals(expectedPedIndividuals, pedIndividuals);
-        }
+      String familyId = "FAM001";
+      List<PedIndividual> expectedPedIndividuals =
+          List.of(
+              new PedIndividual(familyId, "1", "2", "3", Sex.UNKNOWN, AffectionStatus.AFFECTED),
+              new PedIndividual(familyId, "2", "0", "0", Sex.MALE, AffectionStatus.UNAFFECTED),
+              new PedIndividual(familyId, "3", "0", "0", Sex.FEMALE, AffectionStatus.UNKNOWN));
+      assertEquals(expectedPedIndividuals, pedIndividuals);
     }
+  }
 
-    @Test
-    void iteratorUnsupportedPhenotype() throws IOException {
-        String ped = "FAM001  1  2 3  0  HP:0011675\n";
+  @Test
+  void iteratorUnsupportedPhenotype() throws IOException {
+    String ped = "FAM001  1  2 3  0  HP:0011675\n";
 
-        try (PedReader pedReader = new PedReader(new StringReader(ped))) {
-            Iterator<PedIndividual> iterator = pedReader.iterator();
-            assertThrows(UnsupportedPedException.class, iterator::next);
-        }
+    try (PedReader pedReader = new PedReader(new StringReader(ped))) {
+      Iterator<PedIndividual> iterator = pedReader.iterator();
+      assertThrows(UnsupportedPedException.class, iterator::next);
     }
+  }
 
-    @Test
-    void iteratorUnsupportedGenotypes() throws IOException {
-        String ped = "FAM001  1  0 0  1  2  A A  G G  A C\n";
+  @Test
+  void iteratorUnsupportedGenotypes() throws IOException {
+    String ped = "FAM001  1  0 0  1  2  A A  G G  A C\n";
 
-        try (PedReader pedReader = new PedReader(new StringReader(ped))) {
-            Iterator<PedIndividual> iterator = pedReader.iterator();
-            assertThrows(InvalidPedException.class, iterator::next);
-        }
+    try (PedReader pedReader = new PedReader(new StringReader(ped))) {
+      Iterator<PedIndividual> iterator = pedReader.iterator();
+      assertThrows(InvalidPedException.class, iterator::next);
     }
+  }
 
-    @Test
-    void iteratorNoSuchElementException() throws IOException {
-        String ped = "FAM001  1  2 3  0  2\n";
+  @Test
+  void iteratorNoSuchElementException() throws IOException {
+    String ped = "FAM001  1  2 3  0  2\n";
 
-        try (PedReader pedReader = new PedReader(new StringReader(ped))) {
-            Iterator<PedIndividual> iterator = pedReader.iterator();
-            iterator.next();
-            assertThrows(NoSuchElementException.class, iterator::next);
-        }
+    try (PedReader pedReader = new PedReader(new StringReader(ped))) {
+      Iterator<PedIndividual> iterator = pedReader.iterator();
+      iterator.next();
+      assertThrows(NoSuchElementException.class, iterator::next);
     }
+  }
 
-    @Test
-    void iteratorInvalidPedException() throws IOException {
-        String ped = "invalid ped data";
+  @Test
+  void iteratorInvalidPedException() throws IOException {
+    String ped = "invalid ped data";
 
-        try (PedReader pedReader = new PedReader(new StringReader(ped))) {
-            Iterator<PedIndividual> iterator = pedReader.iterator();
-            assertThrows(InvalidPedException.class, iterator::next);
-        }
+    try (PedReader pedReader = new PedReader(new StringReader(ped))) {
+      Iterator<PedIndividual> iterator = pedReader.iterator();
+      assertThrows(InvalidPedException.class, iterator::next);
     }
+  }
 }

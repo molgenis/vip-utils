@@ -1,7 +1,6 @@
 package org.molgenis.vcf.utils.metadata;
 
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
 
@@ -18,14 +17,11 @@ public class ValueCount {
     FIXED
   }
 
-  @NonNull
   Type type;
-  /**
-   * Returns count for FIXED values, otherwise null
-   */
+
+  /** Returns count for FIXED values, otherwise null */
   Integer count;
-  /**
-   * True if null value (list item) is allowed
-   */
+
+  /** True if null value (list item) is allowed */
   boolean nullable;
 }

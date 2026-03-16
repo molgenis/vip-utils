@@ -1,13 +1,16 @@
 package org.molgenis.vcf.utils.metadata;
 
-import lombok.NonNull;
-
 import static java.lang.String.format;
 
+import java.io.Serial;
+
 public class MissingNestedAttributesException extends RuntimeException {
-    public MissingNestedAttributesException(@NonNull String name) {
-        super(
-                format(
-                        "Parent metadata '%s' does not have 'NestedAttributes' (separator and optional prefix), while it has nested fields.", name));
-    }
+  @Serial private static final long serialVersionUID = 1L;
+
+  public MissingNestedAttributesException(String name) {
+    super(
+        format(
+            "Parent metadata '%s' does not have 'NestedAttributes' (separator and optional prefix), while it has nested fields.",
+            name));
+  }
 }

@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
 
@@ -17,6 +16,6 @@ import lombok.experimental.NonFinal;
 @AllArgsConstructor
 @NonFinal
 public class JsonFieldMetadatas {
-  @NonNull @Default Map<String, JsonFieldMetadata> info = Collections.emptyMap();
-  @NonNull @Default Map<String, JsonFieldMetadata> format = Collections.emptyMap();
+  @Default Map<String, JsonFieldMetadata> info = Collections.emptyMap();
+  @Default Map<String, JsonFieldMetadata> format = Collections.emptyMap();
 }
