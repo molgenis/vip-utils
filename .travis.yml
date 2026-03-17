@@ -22,19 +22,16 @@ before_install:
       tar --extract --gunzip --strip-components=1 --directory="$HOME/jdk" "$HOME/jdk.tar.gz"
       rm "$HOME/jdk.tar.gz"
     fi
-  - export JAVA_HOME=$HOME/jdk
-  - export PATH=$JAVA_HOME/bin:$PATH
   # install maven 3.9.11
   - |
     if [ ! -d "$HOME/mvn" ]; then
       mkdir --parents "$HOME/mvn"
       curl --fail --silent --show-error --location --output "$HOME/mvn.tar.gz" \
         https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
-      echo "4b7195b6a4f5c81af4c0212677a32ee8143643401bc6e1e8412e6b06ea82beac  $HOME/mvn.tar.gz" | sha256sum --checksum
+      echo "4b7195b6a4f5c81af4c0212677a32ee8143643401bc6e1e8412e6b06ea82beac  $HOME/mvn.tar.gz" | sha256sum --check
       tar --extract --gunzip --strip-components=1 --directory="$HOME/mvn" "$HOME/mvn.tar.gz"
       rm "$HOME/mvn.tar.gz"
     fi
-  - export PATH=$HOME/mvn/bin:$PATH
   # copy maven settings
   - mkdir --parents $HOME/.m2
   - rsync --archive --checksum travis.settings.xml $HOME/.m2/settings.xml
@@ -53,4 +50,6 @@ deploy:
       tags: true
 env:
   global:
-    secure: hXgBpskONS0Bwfp//8deUrpZQXlg1Pa+RqrVAOPhx9BPSabjKtFZ74d8f+QAmcwQJd5K8zILDd6upHTjhiyPAz2r4ZmnNOkI1hXNDL33wrZyVFh+bVP0jTQHltZ0I7byqut3OF9YDMlPCSDxxTBaY1asM6mBsROMQCSf17/3/XqadfzBC2KYS2c1sBFaSXyBsD9l1JeVV0Z8NSVTcOPGjTBOJe85T30FTJpZI1Zxlv8omfSTGjDVHRBHKq7SFdWCqC9HCWZDg3AQRq4lxfCc74iI9pNmx96GWq3c3RFHz/cjPPUGn/5nix9RYE7OQiiwToHG+dW8JrqLHvvX5xk5R0zh/C3mIXVZKXw9bISmdsO80QqQfxboCNEUaoFH51HscPqbrRWmtzgHNdQyUUAUpBVpG9yYZTJ0buRyNJFluaGad+itVWksWzNb/oAjNxMBzssuzXnAYFLQ3HdswRYX2fbHBxHhlFlBPtf6EGEK0vIJ8IEeq7eQbhJYQbnzjmA9jfxyNsU3hp/A8LicBmPNWGvvno3NGtWrHGu+VLU2TWqXYjWsE4Pso8fg0UKFbVrlVi+DCx5Okt5DHLNWBkFgObyg0Ec0ffOuJfaH/0i2VkGcaGUQ7CdXWEPwIgX7BotcptAz5BFcCOo9A4pTXZtM0Sm4UDnlNJjYZF2QFu+ey4g=
+    - export JAVA_HOME=$HOME/jdk
+    - export PATH=$JAVA_HOME/bin:$HOME/mvn/bin:$PATH
+    - secure: hXgBpskONS0Bwfp//8deUrpZQXlg1Pa+RqrVAOPhx9BPSabjKtFZ74d8f+QAmcwQJd5K8zILDd6upHTjhiyPAz2r4ZmnNOkI1hXNDL33wrZyVFh+bVP0jTQHltZ0I7byqut3OF9YDMlPCSDxxTBaY1asM6mBsROMQCSf17/3/XqadfzBC2KYS2c1sBFaSXyBsD9l1JeVV0Z8NSVTcOPGjTBOJe85T30FTJpZI1Zxlv8omfSTGjDVHRBHKq7SFdWCqC9HCWZDg3AQRq4lxfCc74iI9pNmx96GWq3c3RFHz/cjPPUGn/5nix9RYE7OQiiwToHG+dW8JrqLHvvX5xk5R0zh/C3mIXVZKXw9bISmdsO80QqQfxboCNEUaoFH51HscPqbrRWmtzgHNdQyUUAUpBVpG9yYZTJ0buRyNJFluaGad+itVWksWzNb/oAjNxMBzssuzXnAYFLQ3HdswRYX2fbHBxHhlFlBPtf6EGEK0vIJ8IEeq7eQbhJYQbnzjmA9jfxyNsU3hp/A8LicBmPNWGvvno3NGtWrHGu+VLU2TWqXYjWsE4Pso8fg0UKFbVrlVi+DCx5Okt5DHLNWBkFgObyg0Ec0ffOuJfaH/0i2VkGcaGUQ7CdXWEPwIgX7BotcptAz5BFcCOo9A4pTXZtM0Sm4UDnlNJjYZF2QFu+ey4g=
