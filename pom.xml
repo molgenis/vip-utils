@@ -46,6 +46,7 @@
     </issueManagement>
 
     <properties>
+        <argLine/>
         <java.version>25</java.version>
         <samtools.htsjdk.version>4.3.0</samtools.htsjdk.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
@@ -322,7 +323,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <argLine>@.mvn/jvm.config ${argLine}</argLine>
+                    <argLine>@.mvn/jvm.config @{argLine}</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -330,7 +331,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <argLine>@.mvn/jvm.config -javaagent:"${org.mockito:mockito-core:jar}" ${argLine}</argLine>
+                    <argLine>@.mvn/jvm.config -javaagent:"${org.mockito:mockito-core:jar}" @{argLine}</argLine>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
