@@ -1,14 +1,14 @@
 package org.molgenis.vcf.utils.sample.mapper;
 
-import lombok.NonNull;
 import lombok.Value;
+import org.jspecify.annotations.Nullable;
 
 @Value
 public class SamplePhenotype {
 
-  @NonNull PhenotypeMode mode;
+  PhenotypeMode mode;
 
-  String subjectId;
+  @Nullable String subjectId;
 
-  @NonNull String[] phenotypes;
+  String[] phenotypes;
 }

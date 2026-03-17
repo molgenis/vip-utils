@@ -1,7 +1,6 @@
 package org.molgenis.vcf.utils.sample.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.NonNull;
 import lombok.Value;
 import lombok.experimental.NonFinal;
 
@@ -9,10 +8,8 @@ import lombok.experimental.NonFinal;
 @NonFinal
 public class OntologyClass {
   @JsonProperty("id")
-  @NonNull
   String id;
 
   @JsonProperty("label")
-  @NonNull
   String label;
 }

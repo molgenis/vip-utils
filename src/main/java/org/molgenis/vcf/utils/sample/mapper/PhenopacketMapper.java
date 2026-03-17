@@ -1,21 +1,16 @@
 package org.molgenis.vcf.utils.sample.mapper;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.NonNull;
+import org.molgenis.vcf.utils.InvalidSamplePhenotypesException;
 import org.molgenis.vcf.utils.MixedPhenotypesException;
 import org.molgenis.vcf.utils.UnexpectedEnumException;
-import org.molgenis.vcf.utils.sample.model.AffectedStatus;
-import org.molgenis.vcf.utils.sample.model.Individual;
-import org.molgenis.vcf.utils.sample.model.OntologyClass;
-import org.molgenis.vcf.utils.sample.model.Person;
-import org.molgenis.vcf.utils.sample.model.Phenopacket;
-import org.molgenis.vcf.utils.sample.model.PhenotypicFeature;
-import org.molgenis.vcf.utils.sample.model.Sample;
-import org.molgenis.vcf.utils.InvalidSamplePhenotypesException;
+import org.molgenis.vcf.utils.sample.model.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,15 +24,13 @@ public class PhenopacketMapper {
     for (SamplePhenotype samplePhenotype : phenotypeList) {
       PhenotypeMode mode = samplePhenotype.getMode();
       switch (mode) {
-        case STRING:
-          createPhenopacketsForSamples(samples, phenopackets, samplePhenotype);
-          break;
-        case PER_SAMPLE_STRING:
-          mapPhenotypes(
-              phenopackets, samplePhenotype.getSubjectId(), samplePhenotype.getPhenotypes());
-          break;
-        default:
-          throw new UnexpectedEnumException(mode);
+        case STRING -> createPhenopacketsForSamples(samples, phenopackets, samplePhenotype);
+        case PER_SAMPLE_STRING ->
+            mapPhenotypes(
+                phenopackets,
+                requireNonNull(samplePhenotype.getSubjectId()),
+                samplePhenotype.getPhenotypes());
+        default -> throw new UnexpectedEnumException(mode);
       }
     }
     return phenopackets;
@@ -58,7 +51,7 @@ public class PhenopacketMapper {
 
     Individual individual = new Individual(sampleId);
 
-    @NonNull List<PhenotypicFeature> features = new ArrayList<>();
+    List<PhenotypicFeature> features = new ArrayList<>();
     for (String phenotype : phenotypeString) {
       checkPhenotype(phenotype);
       OntologyClass ontologyClass = new OntologyClass(phenotype, phenotype);
@@ -87,12 +80,12 @@ public class PhenopacketMapper {
 
   private List<SamplePhenotype> parseSamplePhenotypes(String phenotypesString) {
     List<SamplePhenotype> result = new ArrayList<>();
-    for (String samplePhenotypes : phenotypesString.split(",")) {
+    for (String samplePhenotypes : phenotypesString.split(",", -1)) {
       if (samplePhenotypes.contains("/")) {
-        String[] split = samplePhenotypes.split("/");
+        String[] split = samplePhenotypes.split("/", -1);
         if (split.length == 2) {
           String sampleId = split[0];
-          String[] phenotypes = split[1].split(";");
+          String[] phenotypes = split[1].split(";", -1);
           result.add(new SamplePhenotype(PhenotypeMode.PER_SAMPLE_STRING, sampleId, phenotypes));
         } else {
           throw new InvalidSamplePhenotypesException(samplePhenotypes);

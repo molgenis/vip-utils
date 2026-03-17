@@ -1,18 +1,18 @@
 os: linux
 dist: jammy
 language: java
-jdk: openjdk21
+jdk: openjdk25
 cache:
   directories:
-  - "$HOME/.m2"
+    - "$HOME/.m2"
 branches:
   only:
-  - main
-  - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
+    - main
+    - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 before_install:
-- cp travis.settings.xml $HOME/.m2/settings.xml
+  - cp travis.settings.xml $HOME/.m2/settings.xml
 script:
-- mvn clean install -Pcoverage
+  - mvn clean install -Pcoverage
 before_deploy:
   # workaround for: https://travis-ci.community/t/deployments-are-failing-due-to-uri-dependency/14375
   - yes | gem update --system --force
@@ -21,16 +21,16 @@ before_deploy:
   - gem install uri
   - gem install logger
 deploy:
-- provider: releases
-  token:
-    secure: IBaApKGv7jH2aidxsthwzz3ZfUdOCOlmOgj3VyArzNmjNqYJMj9oPu7aNcI6ckk2xov8DxZknk1YlwONiN+gMKHrGqMR3Ckz96QDvt2QnyIOFsd8pAfaQqeMQyY/SJkFfWFFlDFmwaamxX08jwPg4JmSjcZ45IB12EiGAGtOU2DY1UH8kCtQJzADMWHPffS6OnzAfKTDPrZuuxZ0ogiav/se3aEvOWf3/sVKeeMIHDv1Hi4DaNrXvd1CG+ivtFoQMGr3F4McZSCo+DpO/XW7/RAjkeeM8xd3qV2ng3SbF9iAfGVG3jLmfwAsNMik5rdoQTgMV665ftx8P//dimv3JQYUhPdBFcWl7pmhE2oldWDhjT/a1dkkCoqK8Rjo7F0swDdJy3ztyKCxeAA9zF/4pc3kL2fzS92w5Iltl2IZpWZUgHuhtIz9WCJ1pws9Y+fjEe+vHdVIIIIZ9jiSg0ei8yua0DW9dj7AUVUZ7Wz2IIF5jYug3qluu5dAnkq8YQB15fMUniCaPODO2WNyZQa5IaTlXp+DRoguqE95VxfpkwFOzibC1ppPciMuqBBYgMML2X1PVV93A7nOYU2UeIvAU18CotTJnY1n7p+Wnj/gdy5lEv158GHscdnZb01EHk4vZd7tAzat7/3qLcA2WkDiVp6Ln4eVYK4VSD2gVmrTPKQ=
-  file: target/vip-utils.jar
-  on:
-    tags: true
-- provider: script
-  script: mvn clean deploy
-  on:
-    tags: true
+  - provider: releases
+    token:
+      secure: IBaApKGv7jH2aidxsthwzz3ZfUdOCOlmOgj3VyArzNmjNqYJMj9oPu7aNcI6ckk2xov8DxZknk1YlwONiN+gMKHrGqMR3Ckz96QDvt2QnyIOFsd8pAfaQqeMQyY/SJkFfWFFlDFmwaamxX08jwPg4JmSjcZ45IB12EiGAGtOU2DY1UH8kCtQJzADMWHPffS6OnzAfKTDPrZuuxZ0ogiav/se3aEvOWf3/sVKeeMIHDv1Hi4DaNrXvd1CG+ivtFoQMGr3F4McZSCo+DpO/XW7/RAjkeeM8xd3qV2ng3SbF9iAfGVG3jLmfwAsNMik5rdoQTgMV665ftx8P//dimv3JQYUhPdBFcWl7pmhE2oldWDhjT/a1dkkCoqK8Rjo7F0swDdJy3ztyKCxeAA9zF/4pc3kL2fzS92w5Iltl2IZpWZUgHuhtIz9WCJ1pws9Y+fjEe+vHdVIIIIZ9jiSg0ei8yua0DW9dj7AUVUZ7Wz2IIF5jYug3qluu5dAnkq8YQB15fMUniCaPODO2WNyZQa5IaTlXp+DRoguqE95VxfpkwFOzibC1ppPciMuqBBYgMML2X1PVV93A7nOYU2UeIvAU18CotTJnY1n7p+Wnj/gdy5lEv158GHscdnZb01EHk4vZd7tAzat7/3qLcA2WkDiVp6Ln4eVYK4VSD2gVmrTPKQ=
+    file: target/vip-utils.jar
+    on:
+      tags: true
+  - provider: script
+    script: mvn clean deploy
+    on:
+      tags: true
 env:
   global:
     secure: hXgBpskONS0Bwfp//8deUrpZQXlg1Pa+RqrVAOPhx9BPSabjKtFZ74d8f+QAmcwQJd5K8zILDd6upHTjhiyPAz2r4ZmnNOkI1hXNDL33wrZyVFh+bVP0jTQHltZ0I7byqut3OF9YDMlPCSDxxTBaY1asM6mBsROMQCSf17/3/XqadfzBC2KYS2c1sBFaSXyBsD9l1JeVV0Z8NSVTcOPGjTBOJe85T30FTJpZI1Zxlv8omfSTGjDVHRBHKq7SFdWCqC9HCWZDg3AQRq4lxfCc74iI9pNmx96GWq3c3RFHz/cjPPUGn/5nix9RYE7OQiiwToHG+dW8JrqLHvvX5xk5R0zh/C3mIXVZKXw9bISmdsO80QqQfxboCNEUaoFH51HscPqbrRWmtzgHNdQyUUAUpBVpG9yYZTJ0buRyNJFluaGad+itVWksWzNb/oAjNxMBzssuzXnAYFLQ3HdswRYX2fbHBxHhlFlBPtf6EGEK0vIJ8IEeq7eQbhJYQbnzjmA9jfxyNsU3hp/A8LicBmPNWGvvno3NGtWrHGu+VLU2TWqXYjWsE4Pso8fg0UKFbVrlVi+DCx5Okt5DHLNWBkFgObyg0Ec0ffOuJfaH/0i2VkGcaGUQ7CdXWEPwIgX7BotcptAz5BFcCOo9A4pTXZtM0Sm4UDnlNJjYZF2QFu+ey4g=

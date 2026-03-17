@@ -1,7 +1,10 @@
 package org.molgenis.vcf.utils.panelmapper;
 
-import ch.qos.logback.classic.Level;
+import static java.lang.String.format;
+import static org.molgenis.vcf.utils.panelmapper.GeneConverter.convertSymbolsToGeneIds;
+import static org.molgenis.vcf.utils.panelmapper.GeneFileReader.readGenesFile;
 
+import ch.qos.logback.classic.Level;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
@@ -9,17 +12,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.cli.*;
+import org.apache.commons.cli.help.HelpFormatter;
 import org.molgenis.vcf.utils.panelmapper.model.GeneLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static java.lang.String.format;
-import static org.molgenis.vcf.utils.panelmapper.GeneConverter.convertSymbolsToGeneIds;
-import static org.molgenis.vcf.utils.panelmapper.GeneFileReader.readGenesFile;
-
-class PanelMapper{
+class PanelMapper {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PanelMapper.class);
 
@@ -41,11 +40,10 @@ class PanelMapper{
 
   public static void main(String[] args) {
     Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-    if (!(rootLogger instanceof ch.qos.logback.classic.Logger)) {
+    if (!(rootLogger instanceof ch.qos.logback.classic.Logger logger)) {
       throw new ClassCastException("Expected root logger to be a logback logger");
     }
-    ((ch.qos.logback.classic.Logger) rootLogger).setLevel(Level.INFO);
-
+    logger.setLevel(Level.INFO);
 
     CommandLine commandLine = getCommandLine(args);
     validateCommandLine(commandLine);
@@ -67,6 +65,7 @@ class PanelMapper{
     LOGGER.info("Done converting file.");
   }
 
+  @SuppressWarnings("NullAway")
   private static CommandLine getCommandLine(String[] args) {
     CommandLine commandLine = null;
     try {
@@ -84,9 +83,7 @@ class PanelMapper{
     if (commandLine.hasOption(OPT_OUTPUT)) {
       outputPath = Path.of(commandLine.getOptionValue(OPT_OUTPUT));
     } else {
-      outputPath = Path.of(commandLine
-            .getOptionValue(OPT_INPUT)
-            .replace(".txt", "_mapped.tsv"));
+      outputPath = Path.of(commandLine.getOptionValue(OPT_INPUT).replace(".txt", "_mapped.tsv"));
     }
     return outputPath;
   }
@@ -97,56 +94,60 @@ class PanelMapper{
 
     // following information is only logged to system out
     System.out.println();
-    HelpFormatter formatter = new HelpFormatter();
-    formatter.setOptionComparator(null);
+    org.apache.commons.cli.help.HelpFormatter formatter =
+        HelpFormatter.builder().setComparator(null).get();
     String cmdLineSyntax = "java -jar PanelMapper.jar";
-    formatter.printHelp(cmdLineSyntax, getAppOptions(), true);
-    System.out.println();
-    formatter.printHelp(cmdLineSyntax, getAppVersionOptions(), true);
+    try {
+      formatter.printHelp(cmdLineSyntax, "", getAppOptions(), "", true);
+      System.out.println();
+      formatter.printHelp(cmdLineSyntax, "", getAppVersionOptions(), "", true);
+    } catch (IOException ex) {
+      LOGGER.error("failed to log exception");
+    }
   }
 
   static Options getAppOptions() {
     Options appOptions = new Options();
     appOptions.addOption(
-            Option.builder(OPT_INPUT)
-                    .hasArg(true)
-                    .longOpt(OPT_INPUT_LONG)
-                    .desc("Input panel file.")
-                    .build());
+        Option.builder(OPT_INPUT)
+            .hasArg(true)
+            .longOpt(OPT_INPUT_LONG)
+            .desc("Input panel file.")
+            .get());
     appOptions.addOption(
-            Option.builder(OPT_GENES_INPUT)
-                    .hasArg(true)
-                    .required()
-                    .longOpt(OPT_GENES_INPUT_LONG)
-                    .desc("Input Biomart genes file (see README for details).")
-                    .build());
+        Option.builder(OPT_GENES_INPUT)
+            .hasArg(true)
+            .required()
+            .longOpt(OPT_GENES_INPUT_LONG)
+            .desc("Input Biomart genes file (see README for details).")
+            .get());
     appOptions.addOption(
-            Option.builder(OPT_OUTPUT)
-                    .hasArg(true)
-                    .longOpt(OPT_OUTPUT_LONG)
-                    .desc("Output file (.tsv).")
-                    .build());
+        Option.builder(OPT_OUTPUT)
+            .hasArg(true)
+            .longOpt(OPT_OUTPUT_LONG)
+            .desc("Output file (.tsv).")
+            .get());
     appOptions.addOption(
-            Option.builder(OPT_FORCE)
-                    .longOpt(OPT_FORCE_LONG)
-                    .desc("Override the output file if it already exists.")
-                    .build());
+        Option.builder(OPT_FORCE)
+            .longOpt(OPT_FORCE_LONG)
+            .desc("Override the output file if it already exists.")
+            .get());
     appOptions.addOption(
-            Option.builder(OPT_DEBUG)
-                    .longOpt(OPT_DEBUG_LONG)
-                    .desc("Enable debug mode (additional logging).")
-                    .build());
+        Option.builder(OPT_DEBUG)
+            .longOpt(OPT_DEBUG_LONG)
+            .desc("Enable debug mode (additional logging).")
+            .get());
     return appOptions;
   }
 
   static Options getAppVersionOptions() {
     Options appVersionOptions = new Options();
     appVersionOptions.addOption(
-            Option.builder(OPT_VERSION)
-                    .required()
-                    .longOpt(OPT_VERSION_LONG)
-                    .desc("Print version.")
-                    .build());
+        Option.builder(OPT_VERSION)
+            .required()
+            .longOpt(OPT_VERSION_LONG)
+            .desc("Print version.")
+            .get());
     return appVersionOptions;
   }
 
@@ -159,21 +160,18 @@ class PanelMapper{
     if (commandLine.hasOption(OPT_GENES_INPUT)) {
       Path inputPath = Path.of(commandLine.getOptionValue(OPT_GENES_INPUT));
       if (!Files.exists(inputPath)) {
-        throw new IllegalArgumentException(
-                format("Input file '%s' does not exist.", inputPath));
+        throw new IllegalArgumentException(format("Input file '%s' does not exist.", inputPath));
       }
       if (Files.isDirectory(inputPath)) {
-        throw new IllegalArgumentException(
-                format("Input file '%s' is a directory.", inputPath));
+        throw new IllegalArgumentException(format("Input file '%s' is a directory.", inputPath));
       }
       if (!Files.isReadable(inputPath)) {
-        throw new IllegalArgumentException(
-                format("Input file '%s' is not readable.", inputPath));
+        throw new IllegalArgumentException(format("Input file '%s' is not readable.", inputPath));
       }
       String inputPathStr = inputPath.toString();
       if (!inputPathStr.endsWith(".txt")) {
         throw new IllegalArgumentException(
-                format("Input file '%s' is not a %s file.", inputPathStr, ".txt"));
+            format("Input file '%s' is not a %s file.", inputPathStr, ".txt"));
       }
     }
   }
@@ -186,13 +184,11 @@ class PanelMapper{
     Path outputPath = Path.of(commandLine.getOptionValue(OPT_OUTPUT));
 
     if (!commandLine.hasOption(OPT_FORCE) && Files.exists(outputPath)) {
-      throw new IllegalArgumentException(
-              format("Output file '%s' already exists", outputPath));
+      throw new IllegalArgumentException(format("Output file '%s' already exists", outputPath));
     }
   }
 
-  private static void writeToFile(
-          Path output, Collection<String> genes) {
+  private static void writeToFile(Path output, Collection<String> genes) {
     try {
       Files.write(output, genes, Charset.defaultCharset());
     } catch (IOException e) {

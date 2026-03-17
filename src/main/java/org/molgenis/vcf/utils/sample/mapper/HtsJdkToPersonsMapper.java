@@ -12,10 +12,6 @@ import org.molgenis.vcf.utils.sample.model.Sample;
 import org.molgenis.vcf.utils.sample.model.Sex;
 import org.springframework.stereotype.Component;
 
-/**
- * @see VCFHeader
- * @see Person
- */
 @Component
 public class HtsJdkToPersonsMapper {
 
@@ -43,8 +39,8 @@ public class HtsJdkToPersonsMapper {
             if (offset < maxNrSamples) {
               // Paternal and maternal ID can be left empty, but this way we keep it consistent with
               // the Persons loaded via the ped files.
-              Sample sample = Sample.builder().person(createPerson(sampleName, offset))
-                  .index(offset).build();
+              Sample sample =
+                  Sample.builder().person(createPerson(sampleName, offset)).index(offset).build();
               samples.set(offset, sample);
             }
           });

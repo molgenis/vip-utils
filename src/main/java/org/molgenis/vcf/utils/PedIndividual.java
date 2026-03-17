@@ -1,6 +1,5 @@
 package org.molgenis.vcf.utils;
 
-import lombok.NonNull;
 import lombok.Value;
 
 @Value
@@ -17,15 +16,15 @@ public class PedIndividual {
     UNKNOWN
   }
 
-  @NonNull String familyId;
+  String familyId;
 
-  @NonNull String id;
+  String id;
 
-  @NonNull String paternalId;
+  String paternalId;
 
-  @NonNull String maternalId;
+  String maternalId;
 
-  @NonNull Sex sex;
+  Sex sex;
 
-  @NonNull PedIndividual.AffectionStatus affectionStatus;
+  PedIndividual.AffectionStatus affectionStatus;
 }

@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -140,8 +139,7 @@ class PedToSamplesMapperTest {
         "id1",
         Sample.builder()
             .person(
-                new Person(
-                    "fam1", "id1", "paternal", "maternal", UNKNOWN, AffectedStatus.MISSING))
+                new Person("fam1", "id1", "paternal", "maternal", UNKNOWN, AffectedStatus.MISSING))
             .index(-1)
             .build());
 

@@ -4,17 +4,20 @@ import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.Builder;
 import lombok.Data;
+import org.jspecify.annotations.Nullable;
 
 @Data
 @Builder
 public class HpoTerm {
-    @CsvBindByName(column = "id")
-    @CsvBindByPosition(position = 0)
-    String id;
-    @CsvBindByName(column = "label")
-    @CsvBindByPosition(position = 1)
-    String label;
-    @CsvBindByName(column = "description")
-    @CsvBindByPosition(position = 2)
-    String description;
+  @CsvBindByName(column = "id")
+  @CsvBindByPosition(position = 0)
+  String id;
+
+  @CsvBindByName(column = "label")
+  @CsvBindByPosition(position = 1)
+  String label;
+
+  @CsvBindByName(column = "description")
+  @CsvBindByPosition(position = 2)
+  @Nullable String description;
 }

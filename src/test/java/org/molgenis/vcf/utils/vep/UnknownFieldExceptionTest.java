@@ -9,6 +9,8 @@ class UnknownFieldExceptionTest {
 
   @Test
   void getMessage() {
-    assertEquals("No known nested metadata for identifier 'TEST'.",new UnknownFieldException("TEST").getMessage());
+    assertEquals(
+        "No known nested metadata for identifier 'TEST'.",
+        new UnknownFieldException("TEST").getMessage());
   }
 }

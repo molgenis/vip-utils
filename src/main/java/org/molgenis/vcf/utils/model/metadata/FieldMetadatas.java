@@ -1,11 +1,10 @@
 package org.molgenis.vcf.utils.model.metadata;
 
+import java.util.Collections;
+import java.util.Map;
 import lombok.*;
 import lombok.Builder.Default;
 import lombok.experimental.NonFinal;
-
-import java.util.Collections;
-import java.util.Map;
 
 @Value
 @Builder
@@ -13,6 +12,6 @@ import java.util.Map;
 @AllArgsConstructor
 @NonFinal
 public class FieldMetadatas {
-  @NonNull @Default Map<String, FieldMetadata> info = Collections.emptyMap();
-  @NonNull @Default Map<String, FieldMetadata> format = Collections.emptyMap();
+  @Default Map<String, FieldMetadata> info = Collections.emptyMap();
+  @Default Map<String, FieldMetadata> format = Collections.emptyMap();
 }

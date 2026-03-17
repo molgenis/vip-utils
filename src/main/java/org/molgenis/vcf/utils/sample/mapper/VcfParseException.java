@@ -3,8 +3,8 @@ package org.molgenis.vcf.utils.sample.mapper;
 import java.io.Serial;
 
 public class VcfParseException extends RuntimeException {
-  @Serial
-  private static final long serialVersionUID = 1L;
+  @Serial private static final long serialVersionUID = 1L;
+
   public VcfParseException(String message) {
     super(message);
   }
