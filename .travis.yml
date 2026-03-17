@@ -14,36 +14,26 @@ branches:
 before_install:
   # install temurin 25
   - |
-    if [ ! -d "$HOME/jdk" ]; then
-      mkdir --parents $HOME/jdk
+    if [ ! -f "$HOME/jdk/bin/java" ]; then
       curl --fail --silent --show-error --location --output "$HOME/jdk.tar.gz" \
         https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz
       echo "987387933b64b9833846dee373b640440d3e1fd48a04804ec01a6dbf718e8ab8  $HOME/jdk.tar.gz" | sha256sum --check          
-      tar --extract --gunzip --strip-components=1 --directory="$HOME/jdk" "$HOME/jdk.tar.gz"
+      tar --extract --gunzip --strip-components=1 --directory="$HOME/jdk" -f "$HOME/jdk.tar.gz"
       rm "$HOME/jdk.tar.gz"
     fi
   # install maven 3.9.11
   - |
-    if [ ! -d "$HOME/mvn" ]; then
-      mkdir --parents "$HOME/mvn"
+    if [ ! -f "$HOME/mvn/bin/mvn" ]; then
       curl --fail --silent --show-error --location --output "$HOME/mvn.tar.gz" \
         https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
       echo "4b7195b6a4f5c81af4c0212677a32ee8143643401bc6e1e8412e6b06ea82beac  $HOME/mvn.tar.gz" | sha256sum --check
-      tar --extract --gunzip --strip-components=1 --directory="$HOME/mvn" "$HOME/mvn.tar.gz"
+      tar --extract --gunzip --strip-components=1 --directory="$HOME/mvn" -f "$HOME/mvn.tar.gz"
       rm "$HOME/mvn.tar.gz"
     fi
-  # copy maven settings
-  - mkdir --parents $HOME/.m2
+  # sync maven settings
   - rsync --archive --checksum travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - echo "JAVA_HOME=$JAVA_HOME"
-  - echo "PATH=$PATH"
-  - which java
-  - ls -l /home/travis
-  - ls -l /home/travis/jdk
-  - ls -l /home/travis/jdk/bin
-  - java -version
-  - mvn --version
+  - mvn verify --batch-mode --no-transfer-progress --activate-profiles coverage -Djacoco.skip.report=true
 deploy:
   - provider: releases
     token:
@@ -52,7 +42,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: mvn clean deploy --batch-mode --no-transfer-progress
+    script: mvn clean deploy --batch-mode --no-transfer-progress -Djacoco.skip.report=true
     on:
       tags: true
 env:
