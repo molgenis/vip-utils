@@ -12,7 +12,6 @@ branches:
     - main
     - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 before_install:
-  - set -euo pipefail
   # install temurin 25
   - |
     if [ ! -d "$HOME/jdk" ]; then
