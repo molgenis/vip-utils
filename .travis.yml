@@ -39,8 +39,9 @@ script:
   - echo "JAVA_HOME=$JAVA_HOME"
   - echo "PATH=$PATH"
   - which java
-  - /home/travis/jdk/bin/java -version
+  - ls -l /home/travis
   - ls -l /home/travis/jdk
+  - /home/travis/jdk/bin/java -version
   - java -version
   - mvn --version
 deploy:
