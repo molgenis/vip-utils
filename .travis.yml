@@ -36,6 +36,10 @@ before_install:
   - mkdir --parents $HOME/.m2
   - rsync --archive --checksum travis.settings.xml $HOME/.m2/settings.xml
 script:
+  - echo "JAVA_HOME=$JAVA_HOME"
+  - echo "PATH=$PATH"
+  - java -version
+  - mvn -version
   - mvn clean verify --batch-mode --no-transfer-progress --activate-profiles coverage
 deploy:
   - provider: releases
