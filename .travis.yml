@@ -1,25 +1,46 @@
+arch: amd64
 os: linux
-dist: jammy
-language: java
-jdk: openjdk25
+dist: noble
+language: minimal
 cache:
   directories:
     - "$HOME/.m2"
+    - "$HOME/jdk"
+    - "$HOME/mvn"
 branches:
   only:
     - main
     - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 before_install:
-  - cp travis.settings.xml $HOME/.m2/settings.xml
+  - set -euo pipefail
+  # install temurin 25
+  - |
+    if [ ! -d "$HOME/jdk" ]; then
+      mkdir --parents $HOME/jdk
+      curl --fail --silent --show-error --location --output "$HOME/jdk.tar.gz" \
+        https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz
+      echo "987387933b64b9833846dee373b640440d3e1fd48a04804ec01a6dbf718e8ab8  $HOME/jdk.tar.gz" | sha256sum --check          
+      tar --extract --gunzip --strip-components=1 --directory="$HOME/jdk" "$HOME/jdk.tar.gz"
+      rm "$HOME/jdk.tar.gz"
+    fi
+  - export JAVA_HOME=$HOME/jdk
+  - export PATH=$JAVA_HOME/bin:$PATH
+  # install maven 3.9.11
+  - |
+    if [ ! -d "$HOME/mvn" ]; then
+      mkdir --parents "$HOME/mvn"
+      curl --fail --silent --show-error --location --output "$HOME/mvn.tar.gz" \
+        https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
+      echo "4b7195b6a4f5c81af4c0212677a32ee8143643401bc6e1e8412e6b06ea82beac  $HOME/mvn.tar.gz" | sha256sum --checksum
+      tar --extract --gunzip --strip-components=1 --directory="$HOME/mvn" "$HOME/mvn.tar.gz"
+      rm "$HOME/mvn.tar.gz"
+    fi
+  - export PATH=$HOME/mvn/bin:$PATH
+  # copy maven settings
+  - mkdir --parents $HOME/.m2
+  - rsync --archive --checksum travis.settings.xml $HOME/.m2/settings.xml
 script:
-  - mvn clean install -Pcoverage
-before_deploy:
-  # workaround for: https://travis-ci.community/t/deployments-are-failing-due-to-uri-dependency/14375
-  - yes | gem update --system --force
-  - gem install faraday-net_http -v '3.3.0' # workaround for the workaround - https://travis-ci.community/t/cannot-load-such-file-faraday-net-http-loaderror/14455/3
-  - gem install bundler
-  - gem install uri
-  - gem install logger
+  - mvn clean verify --batch-mode --no-transfer-progress --activate-profiles coverage
 deploy:
   - provider: releases
     token:
@@ -28,7 +49,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: mvn clean deploy
+    script: mvn clean deploy --batch-mode --no-transfer-progress
     on:
       tags: true
 env:
