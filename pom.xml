@@ -46,6 +46,7 @@
     </issueManagement>
 
     <properties>
+        <argLine/>
         <java.version>25</java.version>
         <samtools.htsjdk.version>4.3.0</samtools.htsjdk.version>
         <jacoco-maven-plugin.version>0.8.16</jacoco-maven-plugin.version>
