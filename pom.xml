@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.3</version>
+        <version>4.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>org.molgenis</groupId>
     <artifactId>vip-utils</artifactId>
-    <version>4.0.2</version>
+    <version>4.0.3</version>
 
     <name>vip-utils</name>
     <description>Shared classes and tools between VIP repo's</description>
@@ -46,6 +46,7 @@
     </issueManagement>
 
     <properties>
+        <argLine/>
         <java.version>25</java.version>
         <samtools.htsjdk.version>4.3.0</samtools.htsjdk.version>
         <jacoco-maven-plugin.version>0.8.16</jacoco-maven-plugin.version>

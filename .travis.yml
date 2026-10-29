@@ -41,10 +41,6 @@ deploy:
     file: target/vip-utils.jar
     on:
       tags: true
-  - provider: script
-    script: mvn clean deploy --batch-mode --no-transfer-progress -Djacoco.skip.report=true
-    on:
-      tags: true
 env:
   global:
     - JAVA_HOME=$HOME/jdk
