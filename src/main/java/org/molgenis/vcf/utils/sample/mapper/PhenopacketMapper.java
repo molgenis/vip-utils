@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class PhenopacketMapper {
   public static final String SAMPLE_PHENOTYPE_SEPARATOR = "/";
   public static final String PHENOTYPE_SEPARATOR = ";";
+  public static final String EMPTY_SAMPLES_LIST = "EMPTY_SAMPLES_LIST";
 
   public List<Phenopacket> mapPhenotypes(String phenotypes, List<Sample> samples) {
     List<Phenopacket> phenopackets = new ArrayList<>();
@@ -38,10 +39,14 @@ public class PhenopacketMapper {
 
   private void createPhenopacketsForSamples(
       List<Sample> samples, List<Phenopacket> phenopackets, SamplePhenotype samplePhenotype) {
-    for (Sample sample : samples) {
-      Person person = sample.getPerson();
-      if (person.getAffectedStatus() != AffectedStatus.UNAFFECTED) {
-        mapPhenotypes(phenopackets, person.getIndividualId(), samplePhenotype.getPhenotypes());
+    if (samples.isEmpty()) {
+      mapPhenotypes(phenopackets, EMPTY_SAMPLES_LIST, samplePhenotype.getPhenotypes());
+    } else {
+      for (Sample sample : samples) {
+        Person person = sample.getPerson();
+        if (person.getAffectedStatus() != AffectedStatus.UNAFFECTED) {
+          mapPhenotypes(phenopackets, person.getIndividualId(), samplePhenotype.getPhenotypes());
+        }
       }
     }
   }

@@ -62,6 +62,17 @@ class PhenopacketMapperTest {
   }
 
   @Test
+  void mapPhenotypesSampleless() {
+    List<Phenopacket> expected = new ArrayList<>();
+
+    expected.add(createPhenopacket("EMPTY_SAMPLES_LIST", List.of("HP:123", "omim:234")));
+
+    List<Phenopacket> actual =
+        phenopacketMapper.mapPhenotypes("HP:123;omim:234", Collections.emptyList());
+    assertEquals(expected, actual);
+  }
+
+  @Test
   void mapInvalidPhenotypes() {
     List<Sample> samples = Collections.emptyList();
     assertThrows(
